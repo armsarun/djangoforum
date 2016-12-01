@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block content %}
+    <h2> {{ query.title }}</h2>
+    <h3> {{ query.description | safe }}</h3>
+    <hr>
+    {% with answers.count as total_answers %}
+        <h2>
+            {{ total_answers }} answer{{ total_answers|pluralize }}
+        </h2>
+    {% endwith %}
+    <hr>
+    {% for answer in answers %}
+        <div class="comment">
+            <h3> {{ answer.content| safe | linebreaks }} </h3>
+            <h4>{{ answer.user }}</h4> {{ answer.create }}
+            <hr>
+        </div>
+    {% empty %}
+        <p>There are no answers yet.</p>
+    {% endfor %}
+
+    {% if new_answer %}
+        <h2>Your comment has been added.</h2>
+    {% else %}
+        {%if query.close == False %}
+            <h1>Post new Answer</h1>
+            <form action="." method="post">
+                <table>
+                    {{ answer_form.media }}
+                    {{ answer_form.as_table }}
+                </table>
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                     <p><input type="submit" value="Post new Answer"></p>
+                {% else %}
+                     <h3>Please Login to add Answers</h3>
+                     <p><a href="{% url "login" %}">Login</a></p>
+                {% endif %}
+            </form>
+        {% else %}
+            <hr>
+            <h3>Closed Reason:<h3> <h4>{{ query.closed_reason }}</h4> <h5>Question has closed by {{ query.user }}</h5>
+        {% endif %}
+    {% endif %}
+{% endblock %}

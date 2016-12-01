@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block content %}
+
+     {% for query in answers %}
+         <p> {{ query.post.title }} </p>
+         <h3> {{ query.content|safe }}</h3>
+         <h4> {{ query.create }}</h4>
+         <hr>
+     {% empty %}
+         <h2> No answers posted yet</h2>
+     {% endfor %}
+
+{% endblock %}

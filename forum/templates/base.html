@@ -1,0 +1,79 @@
+{% load staticfiles %}
+<!Doctype html>
+<html>
+<head>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+<script src="{% static "css/jquery.js" %}"></script>
+{{ form.media }}
+</head>
+<body>
+<div id="header">
+    <span class="logo"><a href="http://127.0.0.1:8000">Forum</a></span>
+    {% if request.user.is_authenticated %}
+        <ul class="menu">
+            <li {% if section == "newquery" %}class="selected"{% endif %}>
+                <a href="{% url "newquery" %}">New Post</a>
+            </li>
+            <li {% if section == "recent" %}class="selected"{% endif %}>
+                <a href="{% url "index" %}">Recent Questions</a>
+            </li>
+            <li {% if section == "question" %}class="selected"{% endif %}>
+                <a href="{% url "question" %}">Questions</a>
+            </li>
+            <li {% if section == "myquestions" %}class="selected"{% endif %}>
+                <a href="{% url "user_posts" %}">My Questions</a>
+            </li>
+            <li {% if section == "myanswers" %}class="selected"{% endif %}>
+                <a href="{% url "user_answers" %}">My Answers</a>
+            </li>
+        </ul>
+    {% else %}
+        <ul class="menu">
+            <li {% if section == "newquery" %}class="selected"{% endif %}>
+                <a href="{% url "newquery" %}">New Post</a>
+            </li>
+            <li {% if section == "recent" %}class="selected"{% endif %}>
+                <a href="{% url "index" %}">Recent Questions</a>
+            </li>
+            <li {% if section == "question" %}class="selected"{% endif %}>
+                <a href="{% url "question" %}">Questions</a>
+            </li>
+        </ul>
+    {% endif %}
+    <span class="user">
+              {% if request.user.is_authenticated %}
+                  Hello {{ request.user.first_name }},
+
+                  <a href="{% url "edit" %}">Profile</a>
+
+                  <a href="{% url "logout" %}">Logout</a>
+
+              {% else %}
+                  <a href="{% url "login" %}">Login</a>
+              {% endif %}
+          </span>
+</div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">×</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div id="content">
+    {% block content %}
+
+    {% endblock %}
+</div>
+</body>
+</html>
+
+
+

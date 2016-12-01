@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block content %}
+    <p> Edit the question </p>
+    <form action="." method="post">
+        <table>
+            {{ editform.media }}
+            {{ editform.as_p }}
+        </table>
+        {% csrf_token %}
+        <p><input type="submit" value="Post new Answer"></p>
+    </form>
+{% endblock %}

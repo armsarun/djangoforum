@@ -1,8 +1,7 @@
 *        text=auto
 
 *.html   text diff=html
-*.css    text
-*.js     text
 *.sql    text
 
 *.js linguist-language=text
+*.css linguist-language=text

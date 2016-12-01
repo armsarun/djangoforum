@@ -4,3 +4,5 @@
 *.css    text
 *.js     text
 *.sql    text
+
+*.js linguist-language=text

@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Post{% endblock %}
 {% block content %}
-
-     {% for query in answers %}
-         <p> {{ query.post.title }} </p>
-         <h3> {{ query.content|safe }}</h3>
-         <h4> {{ query.create }}</h4>
-         <hr>
-     {% empty %}
-         <h2> No answers posted yet</h2>
-     {% endfor %}
-
+    <div class="container">
+        {% for query in answers %}
+            <div class="row">
+                <a href="{{ query.post.get_absolute_url }}">
+                    {{ query.post.title }}
+                </a>
+                <span class="row">
+                    {{ query.content|safe }}
+                    <span class="pull-right"> {{ query.create }}</span>
+                </span>
+            </div>
+            <hr>
+        {% empty %}
+            <h2> No answers posted yet</h2>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block javascript %}
+    <script>
+
+    </script>
+{% endblock %}
+{% block content %}
+
+    <div class="col-lg-12 col-md-6 col-sm-12">
+        <div class="query_details clearfix">
+           <span class="col-lg-10 pull-left">
+               <h2 class="page-title"> {{ query.title }}</h2>
+            {{ query.description | safe }}
+           </span>
+            <span class="col-lg-2 pull-right">
+                <span class="row">
+                   <div class="avatar">
+                        {{ query.user | make_list|first|title }}
+                   </div>
+                </span>
+                 <span class="row center-block">
+                     {{ query.create.date }}
+                 </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="query_answers clearfix">
+            <div class="row answer_count">
+                {% with answers.count as total_answers %}
+                    <h5>
+                        {{ total_answers }} answer{{ total_answers|pluralize }}
+                    </h5>
+                {% endwith %}
+            </div>
+            <div class="row">
+                {% for answer in answers %}
+                    <div class="answer_inner clearfix">
+                        <p>{{ request.user.answer.count }}</p>
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="avatar">
+                                    {{ answer.user | make_list|first|title }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h7>{{ answer.create }}</h7>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            {{ answer.content| safe | linebreaks }}
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <span class="info answer_count">There are no answers yet.</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if query.close %}
+
+        <div class="col-lg-12 col-sm-12">
+            <div class="query_close clearfix">
+            <span class="pull-left">
+                <span class="row"> Closed Reason</span>
+                <span class="row">{{ query.closed_reason }}</span>
+            </span>
+            <span class="pull-right ">
+                 <span class="row">closed by</span>
+                 <span class="row">{{ query.user }}</span>
+            </span>
+            </div>
+        </div>
+
+    {% else %}
+
+        {% if request.user != query.user %}
+
+            <div class="answer_block">
+                <h3> Post your answer </h3>
+                <a href="{% url "newanswer" query.slug %}">Post here</a>
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+{% endblock %}
+

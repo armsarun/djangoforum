@@ -30,7 +30,6 @@ urlpatterns = [
   url(r'^upload/', (views.upload), name='ckeditor_upload'),
   url(r'^browse/', never_cache((views.browse)), name='ckeditor_browse'),
   url(r'^', include('forum.urls')),
-
 ]
 
 if settings.DEBUG:

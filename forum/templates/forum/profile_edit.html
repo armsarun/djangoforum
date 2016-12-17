@@ -1,13 +1,35 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% block tittle %}Edit your account {% endblock %}
 
 {% block content %}
-   <h1>Edit your account</h1>
-    <p>You can edit your account using the following form</p>
-    <form action="." method="post" enctype="multipart/form-data">
-       {{ user_form.as_p }}
-       {{ profile_form.as_p }}
-       {% csrf_token %}
-       <p><input type="submit" value="Save changes"/> </p>
-    </form>
+    <div class="container">
+        <div class="profile">
+            <form action="." method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for hidden in user_form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                    <div class="form-group">
+                        {% render_field user_form.first_name class="form-control input-md" placeholder="Enter FirstName" %}
+                        {% render_field user_form.last_name class="form-control input-md" placeholder="Enter Lastname" %}
+                        {% render_field user_form.email class="form-control input-md" placeholder="Enter Email" %}
+                        {% for error in field.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+
+                        {% render_field profile_form.date_of_birth class="form-control input-md" placeholder="yyyy-mm-dd" %}
+                        <img src="{%if profile_form.photo%} {{ profile_form.image.url }} {% endif %}">
+                        {% render_field profile_form.photo class="form-control input-md" %}
+                    </div>
+
+
+                <p><input type="submit" value="Save changes"/></p>
+            </form>
+        </div>
+    </div>
 {% endblock %}

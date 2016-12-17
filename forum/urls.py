@@ -29,6 +29,7 @@ urlpatterns = [
 
   url(r'^post/$', views.newquery, name='newquery'),
 
+  url(r'^(?P<slug>[-\w]+)/newanswer/$', views.newanswer , name = 'newanswer'),
   # Homepage of the forum
   url(r'^$', views.index,  name='index'),
 
@@ -38,7 +39,7 @@ urlpatterns = [
   # add new answer
   url(
     r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/'\
-    r'(?P<slug>[-\w]+)/$', views.newanswer , name = 'newanswer'),
+    r'(?P<slug>[-\w]+)/$', views.querydetail , name = 'querydetail'),
 
   #list user all the questions
   url(r'^myquestions/',views.user_query , name='user_posts'),
@@ -50,7 +51,9 @@ urlpatterns = [
   url(r'^(?P<slug>[-\w]+)/$', views.userquestion_edit, name='question_edit'),
 
   #clsoe the user question
-  url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close')
+  url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
+
+
 
 ]
 

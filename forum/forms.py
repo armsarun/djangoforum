@@ -16,7 +16,6 @@ class UserRegistrationForm(forms.ModelForm):
       raise forms.ValidationError('Passwords don\'t match.')
     return cd['password2']
 
-
 class UserEditForm(forms.ModelForm):
 
     class Meta:
@@ -34,6 +33,7 @@ class NewQueryForm(forms.ModelForm):
      model = Post
      fields = ('title','description','category')
 
+
 class NewAnswerForm(forms.ModelForm):
   class Meta:
     model = Thread
@@ -48,6 +48,8 @@ class CloseQueryForm(forms.ModelForm):
   class Meta:
     model = Post
     fields = ('close','closed_reason')
+
+
 
 
 

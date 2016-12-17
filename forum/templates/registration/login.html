@@ -1,25 +1,45 @@
 {% extends "base.html" %}
-
+{% load widget_tweaks %}
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-    <h1>Log-in</h1>
-    {% if form.erros %}
-    <p>Your username and password didn't match
-    Please try again.
-    </p>
-    {% else %}
-    <p>Please, use the following form to log-in.
- If you don't have an account <a href="{% url "register" %}">register here</a></p>
-    {% endif %}
+    <form action="{% url 'login' %}" method="post" xmlns="http://www.w3.org/1999/html">
+        {% csrf_token %}
+        <div class="container">
 
-    <div class="login-form">
-    <form action="{% url 'login' %}" method="post">
-        <p><a href="{% url "password_reset" %}">Forgotten your  password?</a></p>
-    {% csrf_token %}
-    {{ form.as_p }}
-        <input type="hidden" name="next" value="{{ next }}"/>
-    <p><input type="submit" value="login"></p>
+            <div class="row">
+                <div class="login_text">
+                    <h1>Sign into SAP forum</h1>
+                </div>
+            </div>
+            <div class=" row login_error">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="user_login is_responsive">
+                    <div class="login_back">
+                        <div class="col-sm-12 col-md-12 col-xs-12">
+                            {% render_field form.username class="form-control input-md" placeholder="Enter Username" %}
+                            {% render_field form.password class="form-control input-md" placeholder="Enter Password" %}
+                            <input type="hidden" name="next" value="{{ next }}"/>
+                            <button class="btn btn-def btn-block">Login</button>
+                            <span><a href="{% url "password_reset" %}">Forget your password?</a></span>
+                            <span class="row">
+                                <div class="sign-up">
+                                     <h5>Don't have account?</h5>
+                                     <button class="btn btn-def btn-block"><a href="{% url "register" %}">Signup</a></button>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     </form>
-    </div>
 {% endblock %}

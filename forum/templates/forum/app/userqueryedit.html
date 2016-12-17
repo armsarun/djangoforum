@@ -1,13 +1,22 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% block title %}Post{% endblock %}
 {% block content %}
-    <p> Edit the question </p>
     <form action="." method="post">
-        <table>
-            {{ editform.media }}
-            {{ editform.as_p }}
-        </table>
+        {{ editform.media }}
+        {% for hidden in editform.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in editform.visible_fields %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field|add_class:'form-control' }}
+                {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
         {% csrf_token %}
-        <p><input type="submit" value="Post new Answer"></p>
+        <button type="submit">Edit Post</button>
     </form>
 {% endblock %}

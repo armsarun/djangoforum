@@ -21,10 +21,10 @@ class Profile(models.Model):
 # each query goes under this model
 class Post(models.Model):
   # category field objects created
-  ANNOUNCEMENT = 'AN';
-  BUGREPORT = 'BR';
-  TIPSANDTRICKS = 'TT';
-  GENERAL = 'GR';
+  ANNOUNCEMENT = 'Announcement';
+  BUGREPORT = 'Bug Report';
+  TIPSANDTRICKS = 'Tips and tricks';
+  GENERAL = 'General';
 
   #assign value to category
   CATEGORY_CHOICES=((ANNOUNCEMENT,
@@ -38,8 +38,8 @@ class Post(models.Model):
                     )
   user = models.ForeignKey(User)
   title = models.CharField(max_length=255)
-  description = RichTextUploadingField(config_name='custom_ckeditor')
-  category= models.CharField(max_length=2,choices=CATEGORY_CHOICES,default=GENERAL)
+  description = RichTextUploadingField(config_name='default')
+  category= models.CharField(max_length=255,choices=CATEGORY_CHOICES,default=GENERAL)
   create = models.DateTimeField(auto_now=True)
   slug = AutoSlugField(populate_from='title',
                        unique_with=['create__month'],
@@ -55,20 +55,25 @@ class Post(models.Model):
 
 # uset for the simplification of single detail view
   def get_absolute_url(self):
-    return reverse('newanswer',
+    return reverse('querydetail',
                    args=[self.create.year,
                          self.create.strftime('%m'),
                          self.create.strftime('%d'),
                          self.slug,])
 
 class Thread(models.Model):
-  user = models.ForeignKey(User)
+  user = models.ForeignKey(User, related_name='thread_user')
   post = models.ForeignKey(Post, related_name='answer')
-  content = RichTextUploadingField(config_name='custom_ckeditor')
+  content = RichTextUploadingField(config_name='default')
   create = models.DateTimeField(auto_now=True)
 
   def __str__(self):
     return self.content
+
+  class Meta:
+    unique_together = ('user','post','content')
+
+
 
 
 

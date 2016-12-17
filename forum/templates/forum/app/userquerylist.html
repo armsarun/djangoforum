@@ -2,27 +2,38 @@
 {% block title %}Post{% endblock %}
 {% block content %}
 
-     {% for query in post%}
-         <h2>
-         {% comment %}
-          URL reverse is used here
-           post_edit require slug feild to url so each query slug is collect from the query
-         {% endcomment %}
-             <a href="{{ query.get_absolute_url }}">
-               {{ query.title }}
-             </a>
-            <span>
-                <button> <a href="{% url "question_edit" query.slug %}">edit</a></button>
+    <div class="container">
+
+        {% for query in post %}
+            {% comment %}
+                URL reverse is used here
+                post_edit require slug feild to url so each query slug is collect from the query
+            {% endcomment %}
+            <a href="{{ query.get_absolute_url }}">
+                {{ query.title }}
+            </a>
+
+            {% if query.close %}
+                <span class="pull-left">Closed</span>
+            {% else %}
+                <span class="pull-right"><a href="{% url "question_close" query.slug %}">close</a></span>
+            {% endif %}
+
+            <span class="pull-right">
+                {% if query.close %}
+                {% else %}
+                    <a href="{% url "question_edit" query.slug %}">edit</a>
+                {% endif %}
             </span>
-            <span>
-                <button> <a href="{% url "question_close" query.slug %}">close</a></button>
-            </span>
-         </h2>
-         <hr>
-     {% empty %}
-         <h2> No Question post yet</h2>
-         <a href="{% url "newquery" %}">Post Your first Query</a>
-     {% endfor %}
+
+            </h2>
+            <hr>
+        {% empty %}
+            <h2> No Question post yet</h2>
+            <a href="{% url "newquery" %}">Post Your first Query</a>
+        {% endfor %}
+
+    </div>
 
 {% endblock %}
-Successfully created project 'Django_forum' on Successfully created project 'Django_forum' on GitHub, but initial push failed: failed to push some refs to 'git@github.com:armsarun/Django_forum.git', but initial push failed: failed to push some refs to 'git@github.com:armsarun/Django_forum.git'
+

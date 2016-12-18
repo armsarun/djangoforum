@@ -2,12 +2,15 @@ import user
 
 from django.contrib import messages
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import NewQueryForm, NewAnswerForm, EditQueryForm, CloseQueryForm, UserRegistrationForm, UserEditForm, \
-  ProfileEditForm
 
-from .models import Post, Thread, Profile
+
+from .forms import NewQueryForm, NewAnswerForm, EditQueryForm, CloseQueryForm, UserRegistrationForm, UserEditForm, \
+  ProfileEditForm,CommentForm
+
+from .models import Post, Thread, Profile, Comment
 
 
 def user_registration(request):
@@ -77,6 +80,7 @@ def newanswer(request, slug):
   query = get_object_or_404(Post, slug=slug)
   question = Post.objects.get(title=query.title)
   answer = question.answer.filter()
+
   if request.method == 'POST':
     answer_form = NewAnswerForm(request.POST)
     if answer_form.is_valid():
@@ -167,3 +171,35 @@ def userquery_close(request, slug):
     return render(request, 'forum/app/userqueryclose.html', {'closeform': closeform})
   else:
     return render(request, 404)
+
+@login_required
+def newcomment(request,slug, id):
+  query = get_object_or_404(Post, slug=slug)
+  #get the exact answer id in all answers
+  answers = query.answer.filter(id=id)
+  # Foreign key field instances
+  question = Post.objects.get(title=query.title)
+  answer = Thread.objects.get(id=id)
+
+  comments = answer.comment_answers.filter()
+  if request.method == 'POST':
+    commentform = CommentForm(request.POST)
+    if commentform.is_valid():
+      new_comment = commentform.save(commit=False)
+      # new_comment.user = request.user
+      # new_comment.post = question
+      # new_comment.answer = answer
+      # new_comment.save()
+      obj, created = Comment.objects.get_or_create(user=request.user, \
+                                                   post=question,\
+                                                   answer=answer,comment=new_comment)
+      messages.success(request, "comment added sucessfully")
+    else:
+      messages.error(request, "comment not added")
+  else:
+    commentform = CommentForm()
+  return render(request,'forum/app/newcomment.html', {'commentform':commentform,
+                                                      'query':query,
+                                                      'answers': answers,
+                                                      'comments':comments})
+

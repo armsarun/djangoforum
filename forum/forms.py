@@ -1,6 +1,6 @@
 from django import forms #allow to use default form
 from django.contrib.auth.models import User
-from .models import Profile, Post, Thread
+from .models import Profile, Post, Thread, Comment
 
 class UserRegistrationForm(forms.ModelForm):
   password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -33,7 +33,6 @@ class NewQueryForm(forms.ModelForm):
      model = Post
      fields = ('title','description','category')
 
-
 class NewAnswerForm(forms.ModelForm):
   class Meta:
     model = Thread
@@ -50,6 +49,10 @@ class CloseQueryForm(forms.ModelForm):
     fields = ('close','closed_reason')
 
 
+class CommentForm(forms.ModelForm):
+  class Meta:
+    model = Comment
+    fields =('comment',)
 
 
 

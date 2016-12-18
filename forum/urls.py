@@ -25,7 +25,7 @@ urlpatterns = [
 
   url(r'^404/$',django.views.defaults.page_not_found, name='404'),
   url(r'^register/$', views.user_registration, name='register'),
-  url(r'edit/$', views.user_edit, name='edit'),
+  url(r'^account/edit/$', views.user_edit, name='edit'),
 
   url(r'^post/$', views.newquery, name='newquery'),
 
@@ -53,7 +53,7 @@ urlpatterns = [
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
 
-
+  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/comment/$', views.newcomment, name='comment')
 
 ]
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Comment{% endblock %}
+{% block content %}
+
+    <div class="col-md-12 col-sm-12">
+        <div class="row">
+            <form action="." method="post">
+                {% csrf_token %}
+
+                <table>
+                    {{ query.title }}
+                    {% for answer in answers %}
+                        {{ answer.content }}
+                        <input type="hidden" name='answer' value='{{ answer.id }}'>
+                        <hr>
+                        {{ commentform.as_table }}
+                    {% endfor %}
+
+
+                </table>
+                <button class="btn btn-primary" id="post_button">Post the Answer</button>
+            </form>
+        </div>
+    <hr>
+      <div class="row">
+          {% with comments.count as total_answers %}
+                    <h5>
+                        {{ total_answers }} comments{{ total_answers|pluralize }}
+                    </h5>
+                {% endwith %}
+      </div>
+    <div class="row">
+        {% for c in comments %}
+            {{ c.user }}
+            {{ c.comment }}
+            <hr>
+        {% endfor %}
+    </div>
+    </div>
+
+{% endblock %}

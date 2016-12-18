@@ -38,7 +38,6 @@
             <div class="row">
                 {% for answer in answers %}
                     <div class="answer_inner clearfix">
-                        <p>{{ request.user.answer.count }}</p>
                         <div class="col-lg-2">
                             <div class="row">
                                 <div class="avatar">
@@ -51,6 +50,11 @@
                         </div>
                         <div class="col-lg-10">
                             {{ answer.content| safe | linebreaks }}
+                            <div class="row">
+                              <h3> Add  your comment </h3>
+                                <input type="hidden" name='id' value='{{ answer.id }}'>
+                                <a href="{% url "comment" answer.id query.slug  %}">Post here</a>
+                            </div>
                         </div>
 
                     </div>
@@ -82,7 +86,7 @@
 
             <div class="answer_block">
                 <h3> Post your answer </h3>
-                <a href="{% url "newanswer" query.slug %}">Post here</a>
+                <a href="user_answers" query.slug >Post here</a>
             </div>
 
         {% endif %}

@@ -72,12 +72,12 @@ class Thread(models.Model):
 class Comment(models.Model):
   user = models.ForeignKey(User, related_name='comment_user')
   post = models.ForeignKey(Post, related_name='comment_post')
+  answer =  models.ForeignKey(Thread, related_name='comment_answers')
   comment = models.TextField()
   create =models.DateTimeField(auto_now=True)
 
   def __str__(self):
     return self.comment
-
 
 
 

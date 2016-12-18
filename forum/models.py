@@ -8,8 +8,6 @@ from autoslug import AutoSlugField
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 
-
-
 class Profile(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL)
   date_of_birth = models.DateField(blank=True, null=True)
@@ -70,9 +68,15 @@ class Thread(models.Model):
   def __str__(self):
     return self.content
 
-  class Meta:
-    unique_together = ('user','post','content')
 
+class Comment(models.Model):
+  user = models.ForeignKey(User, related_name='comment_user')
+  post = models.ForeignKey(Post, related_name='comment_post')
+  comment = models.TextField()
+  create =models.DateTimeField(auto_now=True)
+
+  def __str__(self):
+    return self.comment
 
 
 

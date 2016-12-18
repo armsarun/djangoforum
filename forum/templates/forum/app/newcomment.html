@@ -21,21 +21,21 @@
                 <button class="btn btn-primary" id="post_button">Post the Answer</button>
             </form>
         </div>
-    <hr>
-      <div class="row">
-          {% with comments.count as total_answers %}
-                    <h5>
-                        {{ total_answers }} comments{{ total_answers|pluralize }}
-                    </h5>
-                {% endwith %}
-      </div>
-    <div class="row">
-        {% for c in comments %}
-            {{ c.user }}
-            {{ c.comment }}
-            <hr>
-        {% endfor %}
-    </div>
+        <hr>
+        <div class="row">
+            {% with comments.count as total_comments %}
+                <h5>
+                    {{ total_comments }} comments{{ total_comments|pluralize }}
+                </h5>
+            {% endwith %}
+        </div>
+        <div class="row">
+            {% for c in comments %}
+                {{ c.user }}
+                {{ c.comment }}
+                <hr>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

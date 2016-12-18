@@ -64,17 +64,6 @@ def newquery(request):
   return render(request, "forum/app/newquery.html", {"query_form": query_form})
 
 
-def querydetail(request, year, month, day, slug):
-  query = get_object_or_404(Post, slug=slug,
-                            create__year=year,
-                            create__month=month,
-                            create__day=day)
-
-  answers = query.answer.all()
-  return render(request, 'forum/app/querydetail.html', {'query': query,
-                                                        'answers': answers})
-
-
 @login_required
 def newanswer(request, slug):
   query = get_object_or_404(Post, slug=slug)
@@ -175,7 +164,7 @@ def userquery_close(request, slug):
 @login_required
 def newcomment(request,slug, id):
   query = get_object_or_404(Post, slug=slug)
-  #get the exact answer id in all answers
+  #get the exact answer id from all answers
   answers = query.answer.filter(id=id)
   # Foreign key field instances
   question = Post.objects.get(title=query.title)
@@ -186,10 +175,6 @@ def newcomment(request,slug, id):
     commentform = CommentForm(request.POST)
     if commentform.is_valid():
       new_comment = commentform.save(commit=False)
-      # new_comment.user = request.user
-      # new_comment.post = question
-      # new_comment.answer = answer
-      # new_comment.save()
       obj, created = Comment.objects.get_or_create(user=request.user, \
                                                    post=question,\
                                                    answer=answer,comment=new_comment)
@@ -203,3 +188,14 @@ def newcomment(request,slug, id):
                                                       'answers': answers,
                                                       'comments':comments})
 
+def querydetail(request, year, month, day, slug):
+  query = get_object_or_404(Post, slug=slug,
+                            create__year=year,
+                            create__month=month,
+                            create__day=day)
+
+  answers = query.answer.all()
+  comment = Comment.objects.filter(answer__in=answers)
+  return render(request, 'forum/app/querydetail.html', {'query': query,
+                                                        'answers': answers,
+                                                        'comment':comment})

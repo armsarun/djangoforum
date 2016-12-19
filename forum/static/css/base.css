@@ -22,9 +22,26 @@
   position: relative;
   right: 0;
   z-index: 2;
-  margin: 25px 301px 25px 200px;
+  margin: -57px 301px 25px 200px;
   padding: 20px 10px 20px;
   min-width: 250px;
+}
+
+.answer_user_block {
+    margin: 0px 0px 5px 120px;
+}
+
+.answer_create {
+        margin: 47px 0px 1px 87px;
+}
+
+.answer_comment {
+  width: 71%;
+  margin: 10px 0px 10px 95px;
+}
+
+.answer_user {
+    margin: 0px 24px;
 }
 
 .answer_inner img {

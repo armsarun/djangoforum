@@ -31,38 +31,62 @@
             <div class="row answer_count">
                 {% with answers.count as total_answers %}
                     <h5>
-                        {{ total_answers }} answer{{ total_answers|pluralize }}
+                       <span class="badge">{{ total_answers }}</span>
+                        <span class="label label-info">answer{{ total_answers|pluralize }}</span>
                     </h5>
                 {% endwith %}
             </div>
             <div class="row">
                 {% for answer in answers %}
-                    <div class="answer_inner clearfix">
-                        <div class="col-lg-2">
-                            <div class="row">
-                                <div class="avatar">
-                                    {{ answer.user | make_list|first|title }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <h7>{{ answer.create }}</h7>
+
+                    <div class="answer_user_block">
+
+                        <div class="answer_create">
+                            <h6>
+                                <span>{{ answer.user }}</span>
+                                <span class="label label-default">{{ answer.create }}</span>
+                            </h6>
+                        </div>
+
+
+                        <div class="answer_user">
+                            <div class="avatar">
+                                {{ answer.user | make_list|first|title }}
                             </div>
                         </div>
-                        <div class="col-lg-10">
-                            {{ answer.content| safe | linebreaks }}
+
+
+                    </div>
+
+                    <div class="answer_inner clearfix">
+                        <div class="col-lg-12">
+                            <div class="answer_content">
+                                {{ answer.content| safe | linebreaks }}
+                            </div>
                             <hr>
                             <div class="row">
 
                                 {% for answer_comment in comment %}
                                     {% if answer_comment.answer|stringformat:"s"  == answer.content|stringformat:"s" %}
-                                        {{ answer_comment.comment }}
-                                         <div class="pull-right">
-                                    {{ answer_comment.user }}
-                                    </div>
+
+                                        <div class="answer_comment">
+                                            <div class="row ">
+                                                <h4 class="label label-primary"> Comments: </h4>
+                                                <hr>
+                                            </div>
+                                            <div class="row">
+                                                {{ answer_comment.comment }}
+                                                <div class="pull-right">
+                                                    {{ answer_comment.user }}
+                                                    {{ answer_comment.create }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
                                     {% endif %}
 
                                 {% endfor %}
-                                <hr>
+
                             </div>
 
                             <div class="row">

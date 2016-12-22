@@ -79,7 +79,10 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="{% url "login" %}">Login</a></li>
+                        {% comment %}
+                           firstof get the current path and login to that path
+                        {% endcomment %}
+                        <li><a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a></li>
                     {% endif %}
                 </ul>
             </div>

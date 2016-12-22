@@ -1,41 +1,32 @@
-{% extends "base.html" %}
-{% block title %}Comment{% endblock %}
-{% block content %}
 
-    <div class="col-md-12 col-sm-12">
-        <div class="row">
-            <form action="." method="post">
-                {% csrf_token %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">×</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-                <table>
-                    {{ query.title }}
-                    {% for answer in answers %}
-                        {{ answer.content }}
-                        <input type="hidden" name='answer' value='{{ answer.id }}'>
-                        <hr>
-                        {{ commentform.as_table }}
-                    {% endfor %}
+    <form action="." method="post">
+        {% csrf_token %}
+        <table>
+            {{ commentform.as_table }}
+        </table>
+        <button class="btn btn-primary" id="post_button" onclick="refreshParent()">Post the Comment</button>
+    </form>
 
 
-                </table>
-                <button class="btn btn-primary" id="post_button">Post the Answer</button>
-            </form>
-        </div>
-        <hr>
-        <div class="row">
-            {% with comments.count as total_comments %}
-                <h5>
-                    {{ total_comments }} comments{{ total_comments|pluralize }}
-                </h5>
-            {% endwith %}
-        </div>
-        <div class="row">
-            {% for c in comments %}
-                {{ c.user }}
-                {{ c.comment }}
-                <hr>
-            {% endfor %}
-        </div>
-    </div>
+{% block javascript %}
+  <script>
 
+function refreshParent() {
+         // window.parent.location;
+
+    top.location.reload();
+}
+
+  </script>
 {% endblock %}

@@ -36,8 +36,11 @@
 }
 
 .answer_comment {
-  width: 71%;
-  margin: 10px 0px 10px 95px;
+  margin: 24px 11px 11px 30px;
+}
+
+.row .comment_block {
+  margin: 0px 89px 20px 37px;
 }
 
 .answer_user {
@@ -234,4 +237,12 @@
     width: 50%;
 }
 
+iframe{
+  display: none;
+}
+iframe#openframe{
 
+    width: 100%;
+    border: none;
+    height: 210px;
+}

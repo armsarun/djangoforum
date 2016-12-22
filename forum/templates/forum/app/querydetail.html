@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Post{% endblock %}
-{% block javascript %}
-    <script>
+{% block title %}QueryDetail{% endblock %}
 
-    </script>
-{% endblock %}
 {% block content %}
+
 
     <div class="col-lg-12 col-md-6 col-sm-12">
         <div class="query_details clearfix">
@@ -31,7 +28,7 @@
             <div class="row answer_count">
                 {% with answers.count as total_answers %}
                     <h5>
-                       <span class="badge">{{ total_answers }}</span>
+                        <span class="badge">{{ total_answers }}</span>
                         <span class="label label-info">answer{{ total_answers|pluralize }}</span>
                     </h5>
                 {% endwith %}
@@ -64,16 +61,15 @@
                                 {{ answer.content| safe | linebreaks }}
                             </div>
                             <hr>
-                            <div class="row">
 
+                            <div class="row comment_block">
+                                <div class="row ">
+                                    <h4 class="label label-primary"> Comments: </h4>
+                                </div>
                                 {% for answer_comment in comment %}
                                     {% if answer_comment.answer|stringformat:"s"  == answer.content|stringformat:"s" %}
 
                                         <div class="answer_comment">
-                                            <div class="row ">
-                                                <h4 class="label label-primary"> Comments: </h4>
-                                                <hr>
-                                            </div>
                                             <div class="row">
                                                 {{ answer_comment.comment }}
                                                 <div class="pull-right">
@@ -84,15 +80,17 @@
                                         </div>
                                         <hr>
                                     {% endif %}
-
                                 {% endfor %}
 
                             </div>
 
                             <div class="row">
-                                <h3> Add your comment </h3>
-                                <input type="hidden" name='id' value='{{ answer.id }}'>
-                                <a href="{% url "comment" answer.id query.slug %}">Post here</a>
+                                <div class="newcomment">
+                                    <input type="hidden" name='id' value='{{ answer.id }}'>
+{#                                    <a href="{% url "comment" answer.id query.slug %}" target="commentframe"></a>#}
+                                    <iframe class="commentframe" id="openframe" src="{% url "comment" answer.id query.slug %}"></iframe>
+                                    <button class="commentbutton" onclick="addcomment()">Add your comment</button>
+                                </div>
                             </div>
                         </div>
 
@@ -125,11 +123,12 @@
 
             <div class="answer_block">
                 <h3> Post your answer </h3>
-                <a href="user_answers" query.slug>Post here</a>
+                <a href="{% url "newanswer" query.slug %}">Post here</a>
             </div>
 
         {% endif %}
 
     {% endif %}
+
 {% endblock %}
 

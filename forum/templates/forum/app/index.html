@@ -3,6 +3,10 @@
 {% block content %}
 
     <div class="container">
+
+        <div class="text">
+            <h3> Recent Questions</h3>
+        </div>
         <div class="table table-responsive">
             <table class="table table-hover">
                 <tr>
@@ -12,11 +16,55 @@
                     <th>Replies</th>
                 </tr>
                 <tr>
-                    {% for each in recent %}
+                    {% for each in home %}
                         <td>
-                        {% if each.close %}
-                            <span class="pull-left">Closed</span>
-                        {% endif %}
+                            {% if each.close %}
+                                <span class="pull-left">Closed</span>
+                            {% endif %}
+                            {% comment %}
+                            each post detail loaded
+                        {% endcomment %}
+                            <a href="{{ each.get_absolute_url }}">
+                                {{ each.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ each.user }}
+                        </td>
+                        <td>
+                            {{ each.category }}
+                        </td>
+                        <td>
+                            {{ each.answer.count }}
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+            {% include "forum/app/paginator.html" %}
+        </div>
+
+        <div class="row">
+            <span class="text pull-left">
+                 <h4> Announcement </h4>
+             </span>
+            <span class="pull-right">
+             <a href="{% url "announcement" %}">Announcement</a>
+            </span>
+        </div>
+        <div class="table table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Topic</th>
+                    <th>Posted User</th>
+                    <th>Category</th>
+                    <th>Replies</th>
+                </tr>
+                <tr>
+                    {% for each in announcements %}
+                        <td>
+                            {% if each.close %}
+                                <span class="pull-left">Closed</span>
+                            {% endif %}
                             {% comment %}
                             each post detail loaded
                         {% endcomment %}
@@ -37,6 +85,54 @@
                     {% endfor %}
             </table>
         </div>
+
+    <div class="row">
+            <span class="text pull-left">
+                 <h4> General </h4>
+             </span>
+            <span class="pull-right">
+             <a href="{% url "general" %}">General</a>
+            </span>
+        </div>
+        <div class="table table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Topic</th>
+                    <th>Posted User</th>
+                    <th>Category</th>
+                    <th>Replies</th>
+                </tr>
+                <tr>
+                    {% for each in general %}
+                        <td>
+                            {% if each.close %}
+                                <span class="pull-left">Closed</span>
+                            {% endif %}
+                            {% comment %}
+                            each post detail loaded
+                        {% endcomment %}
+                            <a href="{{ each.get_absolute_url }}">
+                                {{ each.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ each.user }}
+                        </td>
+                        <td>
+                            {{ each.category }}
+                        </td>
+                        <td>
+                            {{ each.answer.count }}
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+
+
     </div>
+
+
+
 
 {% endblock %}

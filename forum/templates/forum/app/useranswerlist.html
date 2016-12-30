@@ -2,14 +2,14 @@
 {% block title %}Post{% endblock %}
 {% block content %}
     <div class="container">
-        {% for query in answers %}
+        {% for answer in answers %}
             <div class="row">
-                <a href="{{ query.post.get_absolute_url }}">
-                    {{ query.post.title }}
+                <a href="{{ answer.post.get_absolute_url }}">
+                    {{ answer.post.title }}
                 </a>
                 <span class="row">
-                    {{ query.content|safe }}
-                    <span class="pull-right"> {{ query.create }}</span>
+                    {{ answer.content|safe }}  <a href="{% url "editanswer" answer.id answer.post.slug %}"> edit </a>
+                    <span class="pull-right"> {{ answer.create }}</span>
                 </span>
             </div>
             <hr>

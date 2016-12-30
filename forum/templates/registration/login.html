@@ -3,7 +3,7 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-    <form action="{% url 'login' %}" method="post" xmlns="http://www.w3.org/1999/html">
+    <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div class="container">
 

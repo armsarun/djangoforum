@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="table table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Topic</th>
+                    <th>Posted User</th>
+                    <th>Category</th>
+                    <th>Replies</th>
+                    <th>Posted on</th>
+                </tr>
+                <tr>
+                    {% for each in recent %}
+                        <td>
+                        {% if each.close %}
+                            <span class="pull-left">Closed</span>
+                        {% endif %}
+                            {% comment %}
+                            each post detail loaded
+                        {% endcomment %}
+                            <a href="{{ each.get_absolute_url }}">
+                                {{ each.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ each.user }}
+                        </td>
+                        <td>
+                            {{ each.category }}
+                        </td>
+                        <td>
+                            {{ each.answer.count }}
+                        </td>
+                        <td> {{ each.create }}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}

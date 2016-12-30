@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="userdetials">
+
+            <div class="col-lg-2">
+                    <img src="{{ MEDIA_URL }}{{ profile.photo.url }}" class="img-responsive" width="200px"></a>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="profiledetails">
+                    <h4>username: {{ user.username }}</h4>
+                    <h4>DOB: {{ profile.date_of_birth }}</h4>
+                    <h4>Email: {{ user.email }}</h4>
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="useractivity">
+                    <div class="row">
+                           <span class="col-lg-6">
+                            {% with userquestions.count as total_questions %}
+                                <span>{{ total_questions }}</span>
+                            {% endwith %}
+                               <span class="badge"> Questions </span>
+                           </span>
+                          <span class="col-lg-6">
+                           {% with useranswers.count as total_answers %}
+                               <span> {{ total_answers }}</span>
+                           {% endwith %}
+                              <span class="badge"> Answers </span>
+                          </span>
+
+                    </div>
+                    <div class="row">
+                        Last Login: {{ request.user.last_login | timesince }}
+                    </div>
+                    <div class="row">
+                        Joined: {{ request.user.date_joined | timesince }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

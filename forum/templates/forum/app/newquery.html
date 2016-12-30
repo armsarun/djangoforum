@@ -8,11 +8,17 @@
         <div class="container">
 
             <div class="col-lg-2">
-                <div class="newquery_avatar">
-                    {{ request.user}}
-                </div>
+                {% if request.user.profile.photo%}
+                    <div class="img-responsive img-circle">
+                      <a href="{% url "userview" request.user.id request.user.username %}"> <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}" class="img-circle img-responsive" width="100px"></a>
+                    </div>
+                {% else %}
+                    <div class="avatar">
+                     <a href="{% url "userview" request.user.id request.user.username %}">{{ request.user | make_list|first|title }}</a>
+                    </div>
+                {% endif %}
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <div class="newquery clearfix">
                     {{ query_form.media }}
                     {% render_field query_form.title class="form-control" placeholder="Enter your query"%}

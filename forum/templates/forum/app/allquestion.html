@@ -46,7 +46,7 @@
                                 {{ query.answer.count }}
                             </td>
                             <td>
-                                {{ query.create }}
+                                {{ query.create |timesince  }} ago
                             </td>
                             </tr>
                         {% endfor %}

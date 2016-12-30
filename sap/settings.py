@@ -158,22 +158,13 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_CONFIGS = {
   'default': {
 # toolbar should be Camelcase oterwise it won't work at all
-    'toolbar': 'Custom',
-    'skin' : 'kama',
-    'extraPlugins': ','.join(
-      [
-        'codesnippet',
-        'elementspath'
-      ]),
-    'height': 240,
-    'width': '100%',
-    'toolbar_Custom': [
-      ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
-      ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
-       'JustifyRight', 'JustifyBlock'],
-      ["Image", "Table", "Link", "Unlink", "SectionLink"], ['Undo', 'Redo', 'RemoveFormat'],
-      ["Maximize", 'codesnippet',]
-    ]
+    'skin':'office2013',
+    'toolbar':[ ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],['CodeSnippet',"Image","Link", "Unlink",],
+                ['Undo', 'Redo', 'RemoveFormat'], ["Maximize"] ],
+    'height': 400,
+    'width': 825,
+    'removePlugins': 'stylesheetparser',
+    'extraPlugins': 'codesnippet',
   },
 }
 

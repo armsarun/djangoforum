@@ -6,7 +6,10 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 import django.views.defaults
+
 from .import views
+
+from forum.views import HomeView,RecentView, AnnouncementView,GeneralView, UserView
 
 urlpatterns = [
 
@@ -29,10 +32,16 @@ urlpatterns = [
 
   url(r'^post/$', views.newquery, name='newquery'),
 
-  url(r'^(?P<slug>[-\w]+)/newanswer/$', views.newanswer , name = 'newanswer'),
-  # Homepage of the forum
-  url(r'^$', views.index,  name='index'),
 
+  # Homepage of the forum
+  url(r'^$', HomeView.as_view(),  name='index'),
+
+  # Recent Questions
+
+  url(r'^recent/$', RecentView.as_view(), name='recent'),
+  #category wise list
+  url(r'^announcement/$', AnnouncementView.as_view(), name='announcement'),
+  url(r'^general/$', GeneralView.as_view(), name='general'),
   #list all the questions
   url(r'^question/$', views.all_question, name='question'),
 
@@ -53,8 +62,12 @@ urlpatterns = [
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
 
-  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/comment/$', views.newcomment, name='comment')
+  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/comment/$', views.newcomment, name='comment'),
 
+  # url(r'^(?P<slug>[-\w]+)/newanswer/$', views.newanswer , name = 'newanswer'),
+  url(r'^(?P<pk>\d+)/(?P<username>[-\w]+)/$', UserView.as_view(), name='userview'),
+
+  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/answeredit/$', views.useranswer_edit, name='editanswer'),
 ]
 
 

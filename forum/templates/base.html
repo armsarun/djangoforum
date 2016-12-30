@@ -41,7 +41,7 @@
                             <a href="{% url "newquery" %}">New Post</a>
                         </li>
                         <li {% if section == "recent" %}class="selected"{% endif %}>
-                            <a href="{% url "index" %}">Recent Questions</a>
+                            <a href="{% url "recent" %}">Recent Questions</a>
                         </li>
                         <li {% if section == "question" %}class="selected"{% endif %}>
                             <a href="{% url "question" %}">Questions</a>
@@ -59,7 +59,7 @@
                             <a href="{% url "newquery" %}">New Post</a>
                         </li>
                         <li {% if section == "recent" %}class="selected"{% endif %}>
-                            <a href="{% url "index" %}">Recent Questions</a>
+                            <a href="{% url "recent" %}">Recent Questions</a>
                         </li>
                         <li {% if section == "question" %}class="selected"{% endif %}>
                             <a href="{% url "question" %}">Questions</a>
@@ -69,12 +69,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if request.user.is_authenticated %}
                         <li class="dropdown">
+
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
-                                {{ request.user.first_name }} <span class="caret"></span>
+                                {{ request.user}}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{% url "edit" %}">Profile</a></li>
+                                <li><a href="{% url "userview" request.user.pk request.user.username %}">profile</a>
+                                </li>
+                                <li><a href="{% url "edit" %}">Profile Edit</a></li>
                                 <li><a href="{% url "logout" %}">Logout</a></li>
                             </ul>
                         </li>
@@ -89,6 +92,7 @@
         </div>
     </nav>
 </header>
+
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -99,6 +103,7 @@
         {% endfor %}
     </ul>
 {% endif %}
+
 <div class="container-fluid">
     {% block content %}
 
@@ -107,8 +112,8 @@
 <footer>
 
 </footer>
-    <script src="{% static 'js/forum.js' %}"></script>
-    {% block javascript %}{% endblock %}
+<script src="{% static 'js/forum.js' %}"></script>
+{% block javascript %}{% endblock %}
 </body>
 </html>
 

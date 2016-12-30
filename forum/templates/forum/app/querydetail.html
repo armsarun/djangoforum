@@ -2,8 +2,6 @@
 {% block title %}QueryDetail{% endblock %}
 
 {% block content %}
-
-
     <div class="col-lg-12 col-md-6 col-sm-12">
         <div class="query_details clearfix">
            <span class="col-lg-10 pull-left">
@@ -74,22 +72,19 @@
                                                 {{ answer_comment.comment }}
                                                 <div class="pull-right">
                                                     {{ answer_comment.user }}
-                                                    {{ answer_comment.create }}
+                                                    {{ answer_comment.create | timesince }} ago
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
                                     {% endif %}
                                 {% endfor %}
-
                             </div>
-
                             <div class="row">
                                 <div class="newcomment">
-                                    <input type="hidden" name='id' value='{{ answer.id }}'>
-{#                                    <a href="{% url "comment" answer.id query.slug %}" target="commentframe"></a>#}
-                                    <iframe class="commentframe" id="openframe" src="{% url "comment" answer.id query.slug %}"></iframe>
-                                    <button class="commentbutton" onclick="addcomment()">Add your comment</button>
+                                    <input type="hidden" name='answer_id' value='{{ answer.id }}'>
+{#                                    <a href="{% url "comment" answer.id query.slug %}">Add new comment</a>#}
+                                    <iframe src="{% url "comment" answer.id query.slug %}" height="300px" width="100%" id="comment_frame"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -118,15 +113,37 @@
         </div>
 
     {% else %}
-
-        {% if request.user != query.user %}
+        {% if user.is_authenticated %}
 
             <div class="answer_block">
-                <h3> Post your answer </h3>
-                <a href="{% url "newanswer" query.slug %}">Post here</a>
-            </div>
+                {% if query.close == False %}
 
-        {% endif %}
+                    <div class="row">
+                        <div class="answer_text">
+                            <h3> Your Answer</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="answer_form clearfix">
+                            <form action="." method="post">
+                                {% csrf_token %}
+                                <table>
+                                    {{ answerform.media }}
+                                    {{ answerform.as_table }}
+                                </table>
+                                <button class="btn btn-primary pull-right" id="answer_button" name="post_answer">Post the Answer</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    </div>
+                {% endif %}{% comment %}query close check {% endcomment %}
+
+        {% else %}
+            <h3> Please login to add the answer</h3>
+            <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
+        {% endif %} {% comment %}query user log-in check {% endcomment %}
 
     {% endif %}
 

@@ -5,12 +5,13 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.views.generic import TemplateView,DetailView, ListView
+from django.views.generic.edit import FormView, UpdateView
 
 from .forms import NewQueryForm, NewAnswerForm, EditQueryForm, CloseQueryForm, UserRegistrationForm, UserEditForm, \
-  ProfileEditForm,CommentForm
+  ProfileEditForm,CommentForm, AnswereditForm
 
-from .models import Post, Thread, Profile, Comment
+from .models import Post, Thread, Profile, Comment, User
 
 
 def user_registration(request):
@@ -49,6 +50,7 @@ def user_edit(request):
 
 @login_required
 def newquery(request):
+  profile = Profile.objects.all()
   if request.method == 'POST':
     query_form = NewQueryForm(request.POST)
     if query_form.is_valid():
@@ -61,34 +63,8 @@ def newquery(request):
       messages.error(request, "Post not added ")
   else:
     query_form = NewQueryForm()
-  return render(request, "forum/app/newquery.html", {"query_form": query_form})
-
-
-@login_required
-def newanswer(request, slug):
-  query = get_object_or_404(Post, slug=slug)
-  question = Post.objects.get(title=query.title)
-  answer = question.answer.filter()
-
-  if request.method == 'POST':
-    answer_form = NewAnswerForm(request.POST)
-    if answer_form.is_valid():
-      newanswer = answer_form.save(commit=False)
-      newanswer.user = request.user
-      #verify user anwser exist
-      if answer.filter(user__username=newanswer.user).exists():
-        messages.error(request, "answer exist")
-      else:
-        newanswer.post = question
-        newanswer.save()
-        messages.success(request, "Newanswer added sucessfully")
-    else:
-      messages.error(request, "Newanswer not added")
-  else:
-    answer_form = NewAnswerForm()
-  return render(request, 'forum/app/newanswer.html', {'query': query,
-                                                      'answer_form': answer_form})
-
+  return render(request, "forum/app/newquery.html", {"query_form": query_form,
+                                                     "profile":profile})
 
 def all_question(request):
   list = Post.objects.all()
@@ -103,13 +79,6 @@ def all_question(request):
       Q(description__icontains=search_word)
     ).distinct()
   return render(request, "forum/app/allquestion.html", {'list': list})
-
-
-def index(request):
-  collect_post = Post.objects.all()
-  recent = collect_post.order_by('-create')
-  return render(request, "forum/app/index.html", {'recent': recent,})
-
 
 @login_required
 def user_query(request):
@@ -144,8 +113,31 @@ def userquestion_edit(request, slug):
   else:
     return render(request, 404)
 
+def useranswer_edit(request, id, slug):
+  query = get_object_or_404(Post, slug=slug)
+  answers = query.answer.filter(id = id)
+  # foreign key field
+  question = Post.objects.get(title=query.title)
+  answer = Thread.objects.get(id= id)
+  if request.user == answer.user and query.close == False:
+    if request.method == 'POST':
+      editform = AnswereditForm(instance=answer, data=request.POST)
+      if editform.is_valid():
+        update = editform.save(commit=False)
+        update.user = request.user
+        update.post = question
+        update.save()
+        messages.success(request, "Answer update successfully")
+      else:
+        messages.error(request, "Answer not updated")
+    else:
+      editform = AnswereditForm(instance=answer)
+    return render(request, 'forum/app/useransweredit.html', {'editform':editform,
+                                                           'query': query,
+                                                           'answers': answers,
+                                                           })
 
-def userquery_close(request, slug):
+def userquery_close(request,slug):
   edit = get_object_or_404(Post, slug=slug)
   if request.user == edit.user and edit.close == False:
     if request.method == 'POST':
@@ -161,6 +153,44 @@ def userquery_close(request, slug):
   else:
     return render(request, 404)
 
+
+def querydetail(request, year, month, day, slug):
+
+  query = get_object_or_404(Post, slug=slug,
+                            create__year=year,
+                            create__month=month,
+                            create__day=day)
+  #query details
+  answers = query.answer.all()
+  comment = Comment.objects.filter(answer__in=answers)
+
+  #query new answer foreign key
+  question = Post.objects.get(title=query.title)
+  answer = question.answer.filter()
+
+
+  if request.method == 'POST':
+    answerform = NewAnswerForm(request.POST)
+    if answerform.is_valid() and 'post_answer' in request.POST:
+      newanswer = answerform.save(commit=False)
+      newanswer.user = request.user
+      # verify user anwser exist
+      if answer.filter(user__username=newanswer.user).exists():
+        messages.error(request, "answer exist")
+      else:
+        newanswer.post = question
+        newanswer.save()
+        messages.success(request, "Newanswer added sucessfully")
+    else:
+      messages.error(request, "Newanswer not added")
+  else:
+    answerform = NewAnswerForm()
+  return render(request, 'forum/app/querydetail.html', {'query': query,
+                                                        'answers': answers,
+                                                        'comment': comment,
+                                                        'answerform':answerform,
+                                                       })
+
 @login_required
 def newcomment(request,slug, id):
   query = get_object_or_404(Post, slug=slug)
@@ -169,7 +199,6 @@ def newcomment(request,slug, id):
   # Foreign key field instances
   question = Post.objects.get(title=query.title)
   answer = Thread.objects.get(id=id)
-
   comments = answer.comment_answers.filter()
   if request.method == 'POST':
     commentform = CommentForm(request.POST)
@@ -188,14 +217,49 @@ def newcomment(request,slug, id):
                                                       'answers': answers,
                                                       'comments':comments})
 
-def querydetail(request, year, month, day, slug):
-  query = get_object_or_404(Post, slug=slug,
-                            create__year=year,
-                            create__month=month,
-                            create__day=day)
 
-  answers = query.answer.all()
-  comment = Comment.objects.filter(answer__in=answers)
-  return render(request, 'forum/app/querydetail.html', {'query': query,
-                                                        'answers': answers,
-                                                        'comment':comment})
+class RecentView(ListView):
+  model = Post
+  queryset = Post.objects.all().order_by('-create')
+  context_object_name = 'recent'
+  template_name = 'forum/app/recent.html'
+
+class HomeView(ListView):
+    model = Post
+    paginate_by = '7'
+    queryset = Post.objects.all().order_by('-create')
+    context_object_name = "home"
+    template_name = 'forum/app/index.html'
+
+    def get_context_data(self, **kwargs):
+      context = super(HomeView, self).get_context_data(**kwargs)
+      context['announcements'] = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
+      context['general'] = Post.objects.all().filter(category=Post.GENERAL)
+      return context
+
+class AnnouncementView(ListView):
+    model = Post
+    paginate_by = '10'
+    queryset = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
+    context_object_name = "announcement"
+    template_name = 'forum/app/announcement.html'
+
+class GeneralView(ListView):
+  model = Post
+  paginate_by = '10'
+  context_object_name = "general"
+  queryset = Post.objects.all().filter(category=Post.GENERAL)
+  template_name = 'forum/app/general.html'
+
+
+class UserView(DetailView):
+  model = User
+  context_object_name = "user"
+  template_name = 'forum/app/userdetail.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(UserView, self).get_context_data(**kwargs)
+    context['profile'] = Profile.objects.all().get(user=self.request.user)
+    context['userquestions'] = Post.objects.filter(user__username=self.request.user)
+    context['useranswers'] = Thread.objects.filter(user__username=self.request.user)
+    return context

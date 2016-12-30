@@ -1,6 +1,7 @@
-from django import forms #allow to use default form
+from django import forms  # allow to use default form
 from django.contrib.auth.models import User
 from .models import Profile, Post, Thread, Comment
+
 
 class UserRegistrationForm(forms.ModelForm):
   password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -16,46 +17,49 @@ class UserRegistrationForm(forms.ModelForm):
       raise forms.ValidationError('Passwords don\'t match.')
     return cd['password2']
 
-class UserEditForm(forms.ModelForm):
 
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
+class UserEditForm(forms.ModelForm):
+  class Meta:
+    model = User
+    fields = ('first_name', 'last_name', 'email')
+
 
 class ProfileEditForm(forms.ModelForm):
+  class Meta:
+    model = Profile
+    fields = ('date_of_birth', 'photo')
 
-    class Meta:
-        model = Profile
-        fields = ('date_of_birth', 'photo')
 
 class NewQueryForm(forms.ModelForm):
-   class Meta:
-     model = Post
-     fields = ('title','description','category')
+  class Meta:
+    model = Post
+    fields = ('title', 'description', 'category')
+
 
 class NewAnswerForm(forms.ModelForm):
   class Meta:
     model = Thread
     fields = ('content',)
 
+
 class EditQueryForm(forms.ModelForm):
   class Meta:
     model = Post
-    fields = ('title','description','category')
+    fields = ('title', 'description', 'category')
+
 
 class CloseQueryForm(forms.ModelForm):
   class Meta:
     model = Post
-    fields = ('close','closed_reason')
+    fields = ('close', 'closed_reason')
 
 
 class CommentForm(forms.ModelForm):
   class Meta:
     model = Comment
-    fields =('comment',)
+    fields = ('comment',)
 
-
-
-
-
-
+class AnswereditForm(forms.ModelForm):
+   class Meta:
+    model = Thread
+    fields = ('content',)

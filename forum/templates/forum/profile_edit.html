@@ -23,7 +23,6 @@
                     <div class="form-group">
 
                         {% render_field profile_form.date_of_birth class="form-control input-md" placeholder="yyyy-mm-dd" %}
-                        <img src="{%if profile_form.photo%} {{ profile_form.image.url }} {% endif %}">
                         {% render_field profile_form.photo class="form-control input-md" %}
                     </div>
 

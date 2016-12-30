@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Post{% endblock %}
+{% block content %}
+    <form action="." method="post">
+        {{ editform.media }}
+        {% for hidden in editform.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in editform.visible_fields %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field|add_class:'form-control' }}
+                {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% csrf_token %}
+        <button type="submit">Edit Post</button>
+    </form>
+{% endblock %}

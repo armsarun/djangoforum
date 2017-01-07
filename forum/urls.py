@@ -62,12 +62,14 @@ urlpatterns = [
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
 
-  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/comment/$', views.newcomment, name='comment'),
+  url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.newcomment, name='comment'),
 
   # url(r'^(?P<slug>[-\w]+)/newanswer/$', views.newanswer , name = 'newanswer'),
-  url(r'^(?P<pk>\d+)/(?P<username>[-\w]+)/$', UserView.as_view(), name='userview'),
+  url(r'^(?P<pk>\d+)/(?P<username>[-\w]+)/profile/$', UserView.as_view(), name='userview'),
 
-  url(r'^(?P<id>\d{2})/(?P<slug>[-\w]+)/answeredit/$', views.useranswer_edit, name='editanswer'),
+  url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/answeredit/$', views.useranswer_edit, name='editanswer'),
+
+  url(r'^(?P<slug>[-\w]+)/(?P<id>\d+)/correctanswer/$', views.correctanswer, name='correctanswer')
 ]
 
 

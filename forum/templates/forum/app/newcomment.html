@@ -1,27 +1,29 @@
 {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="{{ message.tags }}">
-                {{ message|safe }}
-                <a href="#" class="close">×</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="message">
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="{{ query.get_absolute_url }}" target="_top" class="close">×</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endif %}
 
-    <form action="." method="post">
-        {% csrf_token %}
-        <table>
-            {{ commentform.as_table }}
-        </table>
-        <button class="btn btn-primary" id="post_button" onclick="refreshParent()">Post the Comment</button>
-    </form>
+<form action="." method="post">
+    {% csrf_token %}
+    <table>
+        {{ commentform.as_table }}
+    </table>
+    <button class="btn btn-primary" id="post_button" onclick="refreshParent()">Post the Comment</button>
+</form>
 
 
 {% block javascript %}
-  <script>
-function refreshParent() {
-    top.location.reload()
-}
-  </script>
+    <script>
+        function refreshParent() {
+        // window.location.reload(true);
+        }
+    </script>
 {% endblock %}

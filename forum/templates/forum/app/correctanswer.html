@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}correctanswer{% endblock %}
+{% block content %}
+
+    {{ query.title }}
+    <hr>
+    {% for answer in answers %}
+        {{ answer.content }}
+        {{ answer.user }}
+        <br>
+    {% endfor %}
+
+    <form action="." method="post" id="correctanswerform" ac>
+        {% csrf_token %}
+        <div class="correctanswer">
+            <label>
+                {% render_field correctanswer.correct_answer id="correctanswer_button" class="form-control input-md" %}<span>correctanswer</span>
+            </label>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $("#correctanswer_button").click(function () {
+            $("#correctanswerform").submit()
+        })
+    </script>
+{% endblock %}

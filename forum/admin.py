@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile,Post, Thread, Comment
+from .models import Profile,Post, Thread, Comment, Correctanswer
 # Register your models here.
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -13,3 +13,4 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Thread)
 admin.site.register(Comment)
+admin.site.register(Correctanswer)

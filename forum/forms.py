@@ -1,6 +1,6 @@
 from django import forms  # allow to use default form
 from django.contrib.auth.models import User
-from .models import Profile, Post, Thread, Comment
+from .models import Profile, Post, Thread, Comment, Correctanswer
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -63,3 +63,9 @@ class AnswereditForm(forms.ModelForm):
    class Meta:
     model = Thread
     fields = ('content',)
+
+class CorrectAnswerForm(forms.ModelForm):
+    class Meta:
+      model = Correctanswer
+      fields = ('correct_answer',)
+

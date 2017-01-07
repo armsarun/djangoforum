@@ -7,6 +7,7 @@
            <span class="col-lg-10 pull-left">
                <h2 class="page-title"> {{ query.title }}</h2>
             {{ query.description | safe }}
+
            </span>
             <span class="col-lg-2 pull-right">
                 <span class="row">
@@ -49,15 +50,35 @@
                                 {{ answer.user | make_list|first|title }}
                             </div>
                         </div>
-
-
                     </div>
 
                     <div class="answer_inner clearfix">
                         <div class="col-lg-12">
                             <div class="answer_content">
+                                {% if correct.count < 1 %}
+                                    {% if request.user == query.user %}
+
+{#                                         <a href="{% url "correctanswer" query.slug answer.id %}">Correct Answer</a>#}
+                                        <div class="correctanswer_button pull-right">
+                                            <input type="hidden" name='answer_id' id="answer_id" value='{{ answer.id }}'>
+                                           {{ answer.id }} <button onclick="ajax_submit()">correctanswer</button>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% for c in correct %}
+                                    {% if correct.count == 1 %}
+                                        {% if answer.id == c.answer.id %}
+                                            <div class=" label label-success correctanswer_text pull-right">
+                                                <p>Correct answer</p>
+                                            </div>
+                                        {% else %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
                                 {{ answer.content| safe | linebreaks }}
                             </div>
+
                             <hr>
 
                             <div class="row comment_block">
@@ -82,9 +103,13 @@
                             </div>
                             <div class="row">
                                 <div class="newcomment">
-                                    <input type="hidden" name='answer_id' value='{{ answer.id }}'>
-{#                                    <a href="{% url "comment" answer.id query.slug %}">Add new comment</a>#}
-                                    <iframe src="{% url "comment" answer.id query.slug %}" height="300px" width="100%" id="comment_frame"></iframe>
+                                    {% if user.is_authenticated %}
+                                        <iframe src="{% url "comment" answer.id query.slug %}" height="300px"
+                                                width="100%" id="comment_frame"></iframe>
+                                    {% else %}
+                                        <h3> Please login to add comments</h3>
+                                        <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
+                                    {% endif %} {% comment %}query user log-in check {% endcomment %}
                                 </div>
                             </div>
                         </div>
@@ -132,7 +157,9 @@
                                     {{ answerform.media }}
                                     {{ answerform.as_table }}
                                 </table>
-                                <button class="btn btn-primary pull-right" id="answer_button" name="post_answer">Post the Answer</button>
+                                <button class="btn btn-primary pull-right" id="answer_button" name="post_answer">Post
+                                    the Answer
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -146,6 +173,14 @@
         {% endif %} {% comment %}query user log-in check {% endcomment %}
 
     {% endif %}
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+    </script>
 
 {% endblock %}
 

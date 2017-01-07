@@ -20,8 +20,9 @@
                 <div class="row">
                     <div class="answer_form clearfix">
                         <form action="." method="post">
-                            {% csrf_token %}
+
                             <table>
+                                 {% csrf_token %}
                                 {{ answer_form.media }}
                                 {{ answer_form.as_table }}
                             </table>

@@ -225,6 +225,7 @@
 
 iframe#comment_frame {
  border: none;
+  width: 100%;
 }
 
 .userdetials {
@@ -238,3 +239,38 @@ iframe#comment_frame {
 .useractivity{
       line-height: 2;
 }
+
+.correctanswer {
+    margin:4px;
+    background-color:#EFEFEF;
+    border-radius:4px;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+    float:left;
+}
+
+.correctanswer label {
+    float:left;
+
+}
+
+.correctanswer label span {
+    text-align:center;
+    padding:3px 0px;
+    display:block;
+}
+
+.correctanswer label input {
+    position:absolute;
+    top:-20px;
+}
+
+.correctanswer input:checked + span {
+    background-color:#911;
+    color:#fff;
+}
+
+.correctanswer label{
+      margin-bottom: 0px;
+}
+

@@ -3,15 +3,15 @@ import user
 from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView,DetailView, ListView
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import TemplateView, DetailView, ListView
+from django.http import JsonResponse
 
 from .forms import NewQueryForm, NewAnswerForm, EditQueryForm, CloseQueryForm, UserRegistrationForm, UserEditForm, \
-  ProfileEditForm,CommentForm, AnswereditForm
+  ProfileEditForm, CommentForm, AnswereditForm, CorrectAnswerForm
 
-from .models import Post, Thread, Profile, Comment, User
+from .models import Post, Thread, Profile, Comment, User, Correctanswer
 
 
 def user_registration(request):
@@ -64,7 +64,8 @@ def newquery(request):
   else:
     query_form = NewQueryForm()
   return render(request, "forum/app/newquery.html", {"query_form": query_form,
-                                                     "profile":profile})
+                                                     "profile": profile})
+
 
 def all_question(request):
   list = Post.objects.all()
@@ -79,6 +80,7 @@ def all_question(request):
       Q(description__icontains=search_word)
     ).distinct()
   return render(request, "forum/app/allquestion.html", {'list': list})
+
 
 @login_required
 def user_query(request):
@@ -113,12 +115,13 @@ def userquestion_edit(request, slug):
   else:
     return render(request, 404)
 
+
 def useranswer_edit(request, id, slug):
   query = get_object_or_404(Post, slug=slug)
-  answers = query.answer.filter(id = id)
+  answers = query.answer.filter(id=id)
   # foreign key field
   question = Post.objects.get(title=query.title)
-  answer = Thread.objects.get(id= id)
+  answer = Thread.objects.get(id=id)
   if request.user == answer.user and query.close == False:
     if request.method == 'POST':
       editform = AnswereditForm(instance=answer, data=request.POST)
@@ -132,12 +135,13 @@ def useranswer_edit(request, id, slug):
         messages.error(request, "Answer not updated")
     else:
       editform = AnswereditForm(instance=answer)
-    return render(request, 'forum/app/useransweredit.html', {'editform':editform,
-                                                           'query': query,
-                                                           'answers': answers,
-                                                           })
+    return render(request, 'forum/app/useransweredit.html', {'editform': editform,
+                                                             'query': query,
+                                                             'answers': answers,
+                                                             })
 
-def userquery_close(request,slug):
+
+def userquery_close(request, slug):
   edit = get_object_or_404(Post, slug=slug)
   if request.user == edit.user and edit.close == False:
     if request.method == 'POST':
@@ -155,19 +159,19 @@ def userquery_close(request,slug):
 
 
 def querydetail(request, year, month, day, slug):
-
   query = get_object_or_404(Post, slug=slug,
                             create__year=year,
                             create__month=month,
                             create__day=day)
-  #query details
+  # query details
   answers = query.answer.all()
   comment = Comment.objects.filter(answer__in=answers)
 
-  #query new answer foreign key
+  # query new answer foreign key
   question = Post.objects.get(title=query.title)
   answer = question.answer.filter()
 
+  correct = query.correctanswer_post.filter()
 
   if request.method == 'POST':
     answerform = NewAnswerForm(request.POST)
@@ -188,13 +192,49 @@ def querydetail(request, year, month, day, slug):
   return render(request, 'forum/app/querydetail.html', {'query': query,
                                                         'answers': answers,
                                                         'comment': comment,
-                                                        'answerform':answerform,
-                                                       })
+                                                        'answerform': answerform,
+                                                        'correct': correct })
 
 @login_required
-def newcomment(request,slug, id):
+def correctanswer(request, slug, id):
   query = get_object_or_404(Post, slug=slug)
-  #get the exact answer id from all answers
+  answers = query.answer.filter(id=id)
+
+  # get the instance for the correctanswer
+  answer = Thread.objects.get(id=id)
+  question = Post.objects.get(title=query.title)
+
+  correct = query.correctanswer_post.filter()
+
+  if request.user == query.user:
+    if request.method == 'POST':
+      correctanswer = CorrectAnswerForm(request.POST)
+      if correctanswer.is_valid():
+          custom_correctanswer = correctanswer.save(commit=False)
+          custom_correctanswer.user = request.user
+          custom_correctanswer.post = question
+          custom_correctanswer.answer = answer
+          if correct.count() < 1:
+            custom_correctanswer.save()
+            messages.success(request, "correct answer added successfully")
+          else:
+            messages.error(request, "Correct answer added already. You can't change")
+      else:
+        messages.error(request, "correct Answer not added")
+    else:
+      correctanswer = CorrectAnswerForm(request.POST)
+    return render(request, 'forum/app/correctanswer.html', {'query': query,
+                                                          'answers': answers,
+                                                         'correctanswer': correctanswer
+                                                            })
+  else:
+    return render(request, 404)
+
+
+@login_required
+def newcomment(request, slug, id):
+  query = get_object_or_404(Post, slug=slug)
+  # get the exact answer id from all answers
   answers = query.answer.filter(id=id)
   # Foreign key field instances
   question = Post.objects.get(title=query.title)
@@ -205,17 +245,17 @@ def newcomment(request,slug, id):
     if commentform.is_valid():
       new_comment = commentform.save(commit=False)
       obj, created = Comment.objects.get_or_create(user=request.user, \
-                                                   post=question,\
-                                                   answer=answer,comment=new_comment)
-      messages.success(request, "comment added sucessfully")
+                                                   post=question, \
+                                                   answer=answer, comment=new_comment)
+      messages.success(request, 'comment added sucessfully "please click on close to see the comment"')
     else:
       messages.error(request, "comment not added")
   else:
     commentform = CommentForm()
-  return render(request,'forum/app/newcomment.html', {'commentform':commentform,
-                                                      'query':query,
-                                                      'answers': answers,
-                                                      'comments':comments})
+  return render(request, 'forum/app/newcomment.html', {'commentform': commentform,
+                                                       'query': query,
+                                                       'answers': answers,
+                                                       'comments': comments})
 
 
 class RecentView(ListView):
@@ -224,25 +264,28 @@ class RecentView(ListView):
   context_object_name = 'recent'
   template_name = 'forum/app/recent.html'
 
-class HomeView(ListView):
-    model = Post
-    paginate_by = '7'
-    queryset = Post.objects.all().order_by('-create')
-    context_object_name = "home"
-    template_name = 'forum/app/index.html'
 
-    def get_context_data(self, **kwargs):
-      context = super(HomeView, self).get_context_data(**kwargs)
-      context['announcements'] = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
-      context['general'] = Post.objects.all().filter(category=Post.GENERAL)
-      return context
+class HomeView(ListView):
+  model = Post
+  paginate_by = '7'
+  queryset = Post.objects.all().order_by('-create')
+  context_object_name = "home"
+  template_name = 'forum/app/index.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(HomeView, self).get_context_data(**kwargs)
+    context['announcements'] = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
+    context['general'] = Post.objects.all().filter(category=Post.GENERAL)
+    return context
+
 
 class AnnouncementView(ListView):
-    model = Post
-    paginate_by = '10'
-    queryset = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
-    context_object_name = "announcement"
-    template_name = 'forum/app/announcement.html'
+  model = Post
+  paginate_by = '10'
+  queryset = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
+  context_object_name = "announcement"
+  template_name = 'forum/app/announcement.html'
+
 
 class GeneralView(ListView):
   model = Post

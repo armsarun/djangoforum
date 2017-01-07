@@ -10,3 +10,5 @@ function get_random_color() {
 $(".avatar").each(function() {
     $(this).css("background-color", get_random_color());
 });
+
+

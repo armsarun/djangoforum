@@ -64,7 +64,6 @@ class Thread(models.Model):
   post = models.ForeignKey(Post, related_name='answer')
   content = RichTextUploadingField(config_name='default')
   create = models.DateTimeField(auto_now=True)
-
   def __str__(self):
     return self.content
 
@@ -79,9 +78,11 @@ class Comment(models.Model):
   def __str__(self):
     return self.comment
 
-
-
-
+class Correctanswer(models.Model):
+  user = models.ForeignKey(User, related_name='correctanswer_user')
+  post = models.ForeignKey(Post, related_name='correctanswer_post')
+  answer = models.ForeignKey(Thread, related_name='correctanswer_answer')
+  correct_answer = models.BooleanField(default=False)
 
 
 

@@ -32,6 +32,7 @@ urlpatterns = [
 
   url(r'^post/$', views.newquery, name='newquery'),
 
+  url(r'^test/$', views.testview, name='testform'),
 
   # Homepage of the forum
   url(r'^$', HomeView.as_view(),  name='index'),
@@ -46,6 +47,7 @@ urlpatterns = [
   url(r'^question/$', views.all_question, name='question'),
 
   # add new answer
+
   url(
     r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/'\
     r'(?P<slug>[-\w]+)/$', views.querydetail , name = 'querydetail'),
@@ -57,7 +59,7 @@ urlpatterns = [
   url(r'^myanswers/', views.user_answer, name='user_answers'),
 
   #edit posted question
-  url(r'^(?P<slug>[-\w]+)/$', views.userquestion_edit, name='question_edit'),
+  url(r'^(?P<slug>[-\w]+)/edit$', views.userquestion_edit, name='question_edit'),
 
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
@@ -69,7 +71,6 @@ urlpatterns = [
 
   url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/answeredit/$', views.useranswer_edit, name='editanswer'),
 
-  url(r'^(?P<slug>[-\w]+)/(?P<id>\d+)/correctanswer/$', views.correctanswer, name='correctanswer')
 ]
 
 

@@ -57,12 +57,15 @@
                             <div class="answer_content">
                                 {% if correct.count < 1 %}
                                     {% if request.user == query.user %}
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                            {{ correctanswer }}
+                                            <input type="hidden" name="correctanswer_id" value="{{ answer.id }}">
+                                            <button class="btn btn-primary pull-right" id="answer_button" name="correct_answer">
+                                                Correct answer
+                                            </button>
 
-{#                                         <a href="{% url "correctanswer" query.slug answer.id %}">Correct Answer</a>#}
-                                        <div class="correctanswer_button pull-right">
-                                            <input type="hidden" name='answer_id' id="answer_id" value='{{ answer.id }}'>
-                                           {{ answer.id }} <button onclick="ajax_submit()">correctanswer</button>
-                                        </div>
+                                        </form>
                                     {% endif %}
                                 {% endif %}
                                 {% for c in correct %}
@@ -155,10 +158,10 @@
                                 {% csrf_token %}
                                 <table>
                                     {{ answerform.media }}
-                                    {{ answerform.as_table }}
+                                    {{ answerform }}
                                 </table>
-                                <button class="btn btn-primary pull-right" id="answer_button" name="post_answer">Post
-                                    the Answer
+                                <button class="btn btn-primary pull-right" id="answer_button" name="post_answer">
+                                    Post the Answer
                                 </button>
                             </form>
                         </div>

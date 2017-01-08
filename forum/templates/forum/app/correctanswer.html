@@ -2,16 +2,7 @@
 {% load widget_tweaks %}
 {% block title %}correctanswer{% endblock %}
 {% block content %}
-
-    {{ query.title }}
-    <hr>
-    {% for answer in answers %}
-        {{ answer.content }}
-        {{ answer.user }}
-        <br>
-    {% endfor %}
-
-    <form action="." method="post" id="correctanswerform" ac>
+    <form action="." method="post" id="correctanswerform">
         {% csrf_token %}
         <div class="correctanswer">
             <label>

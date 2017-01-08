@@ -169,17 +169,17 @@ def querydetail(request, year, month, day, slug):
 
   # query new answer foreign key
   question = Post.objects.get(title=query.title)
-  answer = question.answer.filter()
+  answereach = question.answer.filter()
 
   correct = query.correctanswer_post.filter()
 
-  if request.method == 'POST':
-    answerform = NewAnswerForm(request.POST)
-    if answerform.is_valid() and 'post_answer' in request.POST:
+  if 'post_answer' in request.POST:
+    answerform = NewAnswerForm(data=request.POST)
+    if answerform.is_valid():
       newanswer = answerform.save(commit=False)
       newanswer.user = request.user
       # verify user anwser exist
-      if answer.filter(user__username=newanswer.user).exists():
+      if answereach.filter(user__username=newanswer.user).exists():
         messages.error(request, "answer exist")
       else:
         newanswer.post = question
@@ -187,48 +187,36 @@ def querydetail(request, year, month, day, slug):
         messages.success(request, "Newanswer added sucessfully")
     else:
       messages.error(request, "Newanswer not added")
+
+  if request.user == query.user:
+    if 'correct_answer' in request.POST:
+      correctanswer = CorrectAnswerForm(data=request.POST)
+      if correctanswer.is_valid():
+        custom_correctanswer = correctanswer.save(commit=False)
+        custom_correctanswer.user = request.user
+        custom_correctanswer.post = question
+        answer_id = request.POST.get('correctanswer_id', "")
+        answer = Thread.objects.get(id=answer_id)
+        custom_correctanswer.answer = answer
+        if correct.count() < 1:
+           custom_correctanswer.save()
+           messages.success(request, "correct answer added successfully")
+        else:
+           messages.error(request, "Correct answer added already. You can't change")
+      else:
+         messages.error(request, "correct Answer not added")
   else:
-    answerform = NewAnswerForm()
+    return 404
+
+
+  answerform = NewAnswerForm()
+  correctanswer = CorrectAnswerForm()
   return render(request, 'forum/app/querydetail.html', {'query': query,
                                                         'answers': answers,
                                                         'comment': comment,
                                                         'answerform': answerform,
-                                                        'correct': correct })
-
-@login_required
-def correctanswer(request, slug, id):
-  query = get_object_or_404(Post, slug=slug)
-  answers = query.answer.filter(id=id)
-
-  # get the instance for the correctanswer
-  answer = Thread.objects.get(id=id)
-  question = Post.objects.get(title=query.title)
-
-  correct = query.correctanswer_post.filter()
-
-  if request.user == query.user:
-    if request.method == 'POST':
-      correctanswer = CorrectAnswerForm(request.POST)
-      if correctanswer.is_valid():
-          custom_correctanswer = correctanswer.save(commit=False)
-          custom_correctanswer.user = request.user
-          custom_correctanswer.post = question
-          custom_correctanswer.answer = answer
-          if correct.count() < 1:
-            custom_correctanswer.save()
-            messages.success(request, "correct answer added successfully")
-          else:
-            messages.error(request, "Correct answer added already. You can't change")
-      else:
-        messages.error(request, "correct Answer not added")
-    else:
-      correctanswer = CorrectAnswerForm(request.POST)
-    return render(request, 'forum/app/correctanswer.html', {'query': query,
-                                                          'answers': answers,
-                                                         'correctanswer': correctanswer
-                                                            })
-  else:
-    return render(request, 404)
+                                                        'correct': correct,
+                                                        'correctanswer':correctanswer})
 
 
 @login_required
@@ -306,3 +294,5 @@ class UserView(DetailView):
     context['userquestions'] = Post.objects.filter(user__username=self.request.user)
     context['useranswers'] = Thread.objects.filter(user__username=self.request.user)
     return context
+
+

@@ -32,8 +32,6 @@ urlpatterns = [
 
   url(r'^post/$', views.newquery, name='newquery'),
 
-  url(r'^test/$', views.testview, name='testform'),
-
   # Homepage of the forum
   url(r'^$', HomeView.as_view(),  name='index'),
 

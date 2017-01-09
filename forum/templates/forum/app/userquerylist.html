@@ -5,10 +5,6 @@
     <div class="container">
 
         {% for query in post %}
-            {% comment %}
-                URL reverse is used here
-                post_edit require slug feild to url so each query slug is collect from the query
-            {% endcomment %}
             <a href="{{ query.get_absolute_url }}">
                 {{ query.title }}
             </a>

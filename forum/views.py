@@ -58,28 +58,13 @@ def newquery(request):
       new_query.user = request.user
       new_query.save()
       messages.success(request, "Added post Succesfully")
-      return render(request, 'forum/app/allquestion.html')
+      return render(request, 'forum/app/userquerylist.html')
     else:
       messages.error(request, "Post not added ")
   else:
     query_form = NewQueryForm()
   return render(request, "forum/app/newquery.html", {"query_form": query_form,
                                                      "profile": profile})
-
-
-def all_question(request):
-  list = Post.objects.all()
-
-  # search all the queries
-  search_word = request.GET.get("query")
-  if search_word:
-    # list = list.annotate(search=SearchVector('title','description')).filter(search=search_word)
-    # Stemmer algorithm not used
-    list = list.filter(
-      Q(title__icontains=search_word) |
-      Q(description__icontains=search_word)
-    ).distinct()
-  return render(request, "forum/app/allquestion.html", {'list': list})
 
 
 @login_required
@@ -188,8 +173,7 @@ def querydetail(request, year, month, day, slug):
     else:
       messages.error(request, "Newanswer not added")
 
-  if request.user == query.user:
-    if 'correct_answer' in request.POST:
+  if 'correct_answer' in request.POST:
       correctanswer = CorrectAnswerForm(data=request.POST)
       if correctanswer.is_valid():
         custom_correctanswer = correctanswer.save(commit=False)
@@ -199,15 +183,12 @@ def querydetail(request, year, month, day, slug):
         answer = Thread.objects.get(id=answer_id)
         custom_correctanswer.answer = answer
         if correct.count() < 1:
-           custom_correctanswer.save()
-           messages.success(request, "correct answer added successfully")
+          custom_correctanswer.save()
+          messages.success(request, "correct answer added successfully")
         else:
-           messages.error(request, "Correct answer added already. You can't change")
+          messages.error(request, "Correct answer added already. You can't change")
       else:
-         messages.error(request, "correct Answer not added")
-  else:
-    return 404
-
+        messages.error(request, "correct Answer not added")
 
   answerform = NewAnswerForm()
   correctanswer = CorrectAnswerForm()
@@ -216,7 +197,7 @@ def querydetail(request, year, month, day, slug):
                                                         'comment': comment,
                                                         'answerform': answerform,
                                                         'correct': correct,
-                                                        'correctanswer':correctanswer})
+                                                        'correctanswer': correctanswer})
 
 
 @login_required
@@ -244,6 +225,21 @@ def newcomment(request, slug, id):
                                                        'query': query,
                                                        'answers': answers,
                                                        'comments': comments})
+
+
+def all_question(request):
+  list = Post.objects.filter()
+
+  # search all the queries
+  search_word = request.GET.get("query")
+  if search_word:
+    # list = list.annotate(search=SearchVector('title','description')).filter(search=search_word)
+    # Stemmer algorithm not used
+    list = list.filter(
+      Q(title__icontains=search_word) |
+      Q(description__icontains=search_word)
+    ).distinct()
+  return render(request, "forum/app/allquestion.html", {'list': list})
 
 
 class RecentView(ListView):
@@ -294,5 +290,3 @@ class UserView(DetailView):
     context['userquestions'] = Post.objects.filter(user__username=self.request.user)
     context['useranswers'] = Thread.objects.filter(user__username=self.request.user)
     return context
-
-

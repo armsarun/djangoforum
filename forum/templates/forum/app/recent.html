@@ -3,38 +3,45 @@
 {% block content %}
 
     <div class="container">
-        <div class="table table-responsive">
-            <table class="table table-hover">
+
+        <div class="recenttable">
+            <table class="table table-hover table-responsive">
                 <tr>
-                    <th>Topic</th>
-                    <th>Posted User</th>
-                    <th>Category</th>
-                    <th>Replies</th>
-                    <th>Posted on</th>
+                    <th class="hometablehead recenttopic">Topic</th>
+                    <th class="hometablehead recentblack">Posted User</th>
+                    <th class="hometablehead recentblack">Answers</th>
+                    <th class="hometablehead recentblack posteddate">Posted Date</th>
                 </tr>
                 <tr>
                     {% for each in recent %}
                         <td>
-                        {% if each.close %}
-                            <span class="pull-left">Closed</span>
-                        {% endif %}
-                            {% comment %}
-                            each post detail loaded
-                        {% endcomment %}
                             <a href="{{ each.get_absolute_url }}">
                                 {{ each.title }}
                             </a>
+
+                            {% if each.close %}
+                                <span class="label label-warning">Closed</span>
+                            {% endif %}
+
                         </td>
                         <td>
-                            {{ each.user }}
+                            {% if each.user.profile.photo %}
+                                <div class="row">
+                                    <img src="{{ MEDIA_URL }}{{ each.user.profile.photo.url }}"
+                                         class="headeravatarimg img-responsive" width="100" height="100">
+                                    <span class="label label-info">member from {{ each.user.date_joined | timesince }}</span>
+                                </div>
+                            {% else %}
+                                <div class="recentuseravatar">
+                                    {{ each.user | make_list|first|title }}
+                                </div>
+                                <span class="label label-info">since member{{ each.user.date_joined | timesince }}</span>
+                            {% endif %}
                         </td>
                         <td>
-                            {{ each.category }}
+                            <span class="badge">{{ each.answer.count }}</span>
                         </td>
-                        <td>
-                            {{ each.answer.count }}
-                        </td>
-                        <td> {{ each.create }}</td>
+                        <td> {{ each.create |timesince }}</td>
                         </tr>
                     {% endfor %}
             </table>

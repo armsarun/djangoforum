@@ -1,35 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Post{% endblock %}
+{% block title %}Userquestions{% endblock %}
 {% block content %}
 
     <div class="container">
 
         {% for query in post %}
-            <a href="{{ query.get_absolute_url }}">
-                {{ query.title }}
-            </a>
 
-            {% if query.close %}
-                <span class="pull-left">Closed</span>
-            {% else %}
-                <span class="pull-right"><a href="{% url "question_close" query.slug %}">close</a></span>
-            {% endif %}
+            <div class="userquestionlist">
+                <a href="{{ query.get_absolute_url }}">
+                    {{ query.title }}
+                </a>
 
-            <span class="pull-right">
+                {% if query.close %}
+                    <span class="label label-warning">Closed</span>
+                {% else %}
+                    <span class="pull-right">
+                        <div class="userbtn">
+                            <a id="userbtnref" href="{% url "question_close" query.slug %}">close</a>
+                        </div>
+                    </span>
+                {% endif %}
+
                 {% if query.close %}
                 {% else %}
-                    <a href="{% url "question_edit" query.slug %}">edit</a>
+                    <span class="pull-right">
+                    <div class="userbtn">
+                    <a id="userbtnref" href="{% url "question_edit" query.slug %}">edit</a>
+                    </div>
+                    </span>
                 {% endif %}
-            </span>
+                <hr>
 
-            </h2>
-            <hr>
-        {% empty %}
-            <h2> No Question post yet</h2>
-            <a href="{% url "newquery" %}">Post Your first Query</a>
+            </div>
+
+                {% empty %}
+                <h2> No Question post yet</h2>
+                <a href="{% url "newquery" %}">Post Your first Query</a>
         {% endfor %}
 
     </div>
 
 {% endblock %}
-

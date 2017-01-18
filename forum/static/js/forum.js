@@ -7,8 +7,6 @@ function get_random_color() {
     return color;
 }
 
-$(".avatar").each(function() {
+$(".avatar,.headeravatar, .recentuseravatar").each(function() {
     $(this).css("background-color", get_random_color());
 });
-
-

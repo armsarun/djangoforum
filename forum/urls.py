@@ -9,7 +9,7 @@ import django.views.defaults
 
 from .import views
 
-from forum.views import HomeView,RecentView, AnnouncementView,GeneralView, UserView
+from forum.views import HomeView,RecentView, AnnouncementView,GeneralView, UserView, BugreportView, TipsView
 
 urlpatterns = [
 
@@ -41,6 +41,8 @@ urlpatterns = [
   #category wise list
   url(r'^announcement/$', AnnouncementView.as_view(), name='announcement'),
   url(r'^general/$', GeneralView.as_view(), name='general'),
+  url(r'^bugreport/$', BugreportView.as_view(), name='bugreport'),
+  url(r'^tips/$',TipsView.as_view() ,name='tips'),
   #list all the questions
   url(r'^question/$', views.all_question, name='question'),
 

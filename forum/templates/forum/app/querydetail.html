@@ -62,7 +62,7 @@
                                             {{ correctanswer }}
                                             <input type="hidden" name="correctanswer_id" value="{{ answer.id }}">
                                             <button class="btn btn-primary pull-right" id="answer_button" name="correct_answer">
-                                                Correct answer
+                                                BestAnswer
                                             </button>
 
                                         </form>
@@ -72,7 +72,7 @@
                                     {% if correct.count == 1 %}
                                         {% if answer.id == c.answer.id %}
                                             <div class=" label label-success correctanswer_text pull-right">
-                                                <p>Correct answer</p>
+                                                <p>BestAnswer</p>
                                             </div>
                                         {% else %}
                                         {% endif %}

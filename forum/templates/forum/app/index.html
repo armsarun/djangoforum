@@ -2,137 +2,144 @@
 {% block title %}Post{% endblock %}
 {% block content %}
 
-    <div class="container">
+    <div class="container-fluid searchbackgorund">
+        <div class="container">
 
-        <div class="text">
-            <h3> Recent Questions</h3>
-        </div>
-        <div class="table table-responsive">
-            <table class="table table-hover">
-                <tr>
-                    <th>Topic</th>
-                    <th>Posted User</th>
-                    <th>Category</th>
-                    <th>Replies</th>
-                </tr>
-                <tr>
-                    {% for each in home %}
-                        <td>
-                            {% if each.close %}
-                                <span class="pull-left">Closed</span>
-                            {% endif %}
-                            {% comment %}
-                            each post detail loaded
-                        {% endcomment %}
-                            <a href="{{ each.get_absolute_url }}">
-                                {{ each.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ each.user }}
-                        </td>
-                        <td>
-                            {{ each.category }}
-                        </td>
-                        <td>
-                            {{ each.answer.count }}
-                        </td>
-                        </tr>
-                    {% endfor %}
-            </table>
-            {% include "forum/app/paginator.html" %}
-        </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-8 col-md-12 col-xs-6">
 
-        <div class="row">
-            <span class="text pull-left">
-                 <h4> Announcement </h4>
-             </span>
-            <span class="pull-right">
-             <a href="{% url "announcement" %}">Announcement</a>
-            </span>
-        </div>
-        <div class="table table-responsive">
-            <table class="table table-hover">
-                <tr>
-                    <th>Topic</th>
-                    <th>Posted User</th>
-                    <th>Category</th>
-                    <th>Replies</th>
-                </tr>
-                <tr>
-                    {% for each in announcements %}
-                        <td>
-                            {% if each.close %}
-                                <span class="pull-left">Closed</span>
-                            {% endif %}
-                            {% comment %}
-                            each post detail loaded
-                        {% endcomment %}
-                            <a href="{{ each.get_absolute_url }}">
-                                {{ each.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ each.user }}
-                        </td>
-                        <td>
-                            {{ each.category }}
-                        </td>
-                        <td>
-                            {{ each.answer.count }}
-                        </td>
-                        </tr>
-                    {% endfor %}
-            </table>
-        </div>
+                    <form method="GET" action="">
+                        <div class="homesearch_form">
+                            <input type="text" class="form-control" name="query" placeholder="Enter your Search"
+                                   id="homesearch">
+                            <button tabindex="102" class="button" type="submit" id="homesearchsubmit" title="Search">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </form>
 
-    <div class="row">
-            <span class="text pull-left">
-                 <h4> General </h4>
-             </span>
-            <span class="pull-right">
-             <a href="{% url "general" %}">General</a>
-            </span>
-        </div>
-        <div class="table table-responsive">
-            <table class="table table-hover">
-                <tr>
-                    <th>Topic</th>
-                    <th>Posted User</th>
-                    <th>Category</th>
-                    <th>Replies</th>
-                </tr>
-                <tr>
-                    {% for each in general %}
-                        <td>
-                            {% if each.close %}
-                                <span class="pull-left">Closed</span>
-                            {% endif %}
-                            {% comment %}
-                            each post detail loaded
-                        {% endcomment %}
-                            <a href="{{ each.get_absolute_url }}">
-                                {{ each.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ each.user }}
-                        </td>
-                        <td>
-                            {{ each.category }}
-                        </td>
-                        <td>
-                            {{ each.answer.count }}
-                        </td>
-                        </tr>
-                    {% endfor %}
-            </table>
-        </div>
+                </div>
+            </div>
 
-
+        </div>
     </div>
 
+    <div class="container">
+        <div class="col-lg-12">
+            <div class="row">
+                <table class="table table-responsive ">
+                    <tr>
+                        <th class="hometablehead" id="category">Question</th>
+                        <th class="hometablehead homecenter" id="recentanswer">Answers</th>
+                        <th class="hometablehead " id="recentuser">Posted User</th>
+                    </tr>
+                    {% for eachquery in recent %}
+                        <tr>
+                            <td>
+                                <a href="{{ eachquery.get_absolute_url }}">{{ eachquery.title }}</a>
+                            </td>
+                            <td class="homecenter">
+                                <span class="badge">{{ eachquery.answer.count }}</span>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    {% if eachquery.user.profile.photo %}
+                                        <div class="col-lg-6">
+                                            <img src="{{ MEDIA_URL }}{{ eachquery.user.profile.photo.url }}"
+                                                 class="headeravatarimg img-responsive" width="100" height="100">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="homememberdetail">
+                                                <span class="label label-info">member from {{ eachquery.user.date_joined | timesince }}</span>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-lg-6">
+                                            <div class="recentuseravatar">
+                                                {{ eachquery.user | make_list|first|title }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="homememberdetail">
+                                                <span class="label label-info">member from{{ eachquery.user.date_joined | timesince }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
 
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-lg-12">
+            <div class="row">
+
+                <table class="table table-responsive" id="homecategory">
+                    <tr>
+                        <th class="hometablehead" id="category">Category</th>
+                        <th class="hometablehead" id="question">Questions</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url "announcement" %}">Announcement</a>
+                        </td>
+                        <td>
+                            {% with announcements.count as total_answers %}
+                                <h5>
+                                    <span class="badge">{{ total_answers }}</span>
+
+                                </h5>
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url "general" %}">General</a>
+                        </td>
+                        <td>
+                            {% with general.count as total_answers %}
+                                <h5>
+                                    <span class="badge">{{ total_answers }}</span>
+
+                                </h5>
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url "bugreport" %}">Bug Report</a>
+                        </td>
+                        <td>
+                            {% with bugreport.count as total_answers %}
+                                <h5>
+                                    <span class="badge">{{ total_answers }}</span>
+
+                                </h5>
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url "tips" %}">Tips and tricks</a>
+                        </td>
+                        <td>
+                            {% with tips.count as total_answers %}
+                                <h5>
+                                    <span class="badge">{{ total_answers }}</span>
+
+                                </h5>
+                            {% endwith %}
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

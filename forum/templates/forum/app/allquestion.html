@@ -20,38 +20,50 @@
 
 
         <div class="row">
-            <div class="table table-responsive">
-                <table class="table table-hover">
-                    <tr>
-                        <th>Topic</th>
-                        <th>Posted User</th>
-                        <th>Replies</th>
-                        <th>Last Updated time</th>
-                    </tr>
-                    <tr>
-                        {% for query in list %}
-                            <td>
-                                {% if query.close %}
-                                    <span class="pull-left">Closed</span>
-                                {% endif %}
-                                 <a href="{{ query.get_absolute_url }}">
-                                    {{ query.title }}
-                                </a>
 
-                            </td>
-                            <td>
-                                {{ query.user }}
-                            </td>
-                            <td>
-                                {{ query.answer.count }}
-                            </td>
-                            <td>
-                                {{ query.create |timesince  }} ago
-                            </td>
-                            </tr>
-                        {% endfor %}
-                </table>
-            </div>
+            <table class="table table-responsive">
+                <tr>
+                    <th class="hometablehead recenttopic">Questions</th>
+                    <th class="hometablehead recentblack">Posted User</th>
+                    <th class="hometablehead recentblack">Answers</th>
+                    <th class="hometablehead recentblack">Last Updated time</th>
+                </tr>
+                <tr>
+                    {% for query in list %}
+                        <td>
+
+                            <a href="{{ query.get_absolute_url }}">
+                                {{ query.title }}
+                            </a>
+                            {% if query.close %}
+                                <span class="label label-warning">Closed</span>
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if query.user.profile.photo %}
+                                <div class="row">
+                                    <img src="{{ MEDIA_URL }}{{ query.user.profile.photo.url }}"
+                                         class="headeravatarimg img-responsive" width="100" height="100">
+                                    <span class="label label-info">member from {{ query.user.date_joined | timesince }}</span>
+                                </div>
+                            {% else %}
+                                <div class="recentuseravatar">
+                                    {{ query.user | make_list|first|title }}
+                                </div>
+                                <span class="label label-info">since member{{ query.user.date_joined | timesince }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ query.answer.count }}
+                        </td>
+                        <td>
+                            {{ query.create |timesince }} ago
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+
         </div>
     </div>
 {% endblock %}

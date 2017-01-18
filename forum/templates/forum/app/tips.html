@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+{% block content %}
+
+    <div class="container">
+
+    <div class="text">
+        <h3>Announcement</h3>
+    </div>
+        <div class="table table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>Topic</th>
+                    <th>Posted User</th>
+                    <th>Category</th>
+                    <th>Replies</th>
+                </tr>
+                <tr>
+                    {% for each in tips %}
+                        <td>
+                        {% if each.close %}
+                            <span class="pull-left">Closed</span>
+                        {% endif %}
+                            {% comment %}
+                            each post detail loaded
+                        {% endcomment %}
+                            <a href="{{ each.get_absolute_url }}">
+                                {{ each.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ each.user }}
+                        </td>
+                        <td>
+                            {{ each.category }}
+                        </td>
+                        <td>
+                            {{ each.answer.count }}
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+          {% include "forum/app/paginator.html"%}
+        </div>
+
+    </div>
+
+{% endblock %}

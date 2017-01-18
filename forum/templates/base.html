@@ -9,9 +9,9 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap-theme.min.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="{% static "js/jquery.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
@@ -19,78 +19,85 @@
 </head>
 <body>
 
-<header>
-    <!--Create the empty space to fixed navbar so it doesn't hide the content below -->
-    <nav class="navbar navbar-default ">
-    </nav>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container clearfix">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="http://127.0.0.1:8000" class="navbar-brand">Forum</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                {% if request.user.is_authenticated %}
-                    <ul class="nav navbar-nav navbar-left">
-                        <li {% if section == "newquery" %}class="selected"{% endif %}>
-                            <a href="{% url "newquery" %}">New Post</a>
-                        </li>
-                        <li {% if section == "recent" %}class="selected"{% endif %}>
-                            <a href="{% url "recent" %}">Recent Questions</a>
-                        </li>
-                        <li {% if section == "question" %}class="selected"{% endif %}>
-                            <a href="{% url "question" %}">Questions</a>
-                        </li>
-                        <li {% if section == "myquestions" %}class="selected"{% endif %}>
-                            <a href="{% url "user_posts" %}">My Questions</a>
-                        </li>
-                        <li {% if section == "myanswers" %}class="selected"{% endif %}>
-                            <a href="{% url "user_answers" %}">My Answers</a>
-                        </li>
-                    </ul>
-                {% else %}
-                    <ul class="nav navbar-nav navbar-left">
-                        <li {% if section == "newquery" %}class="selected"{% endif %}>
-                            <a href="{% url "newquery" %}">New Post</a>
-                        </li>
-                        <li {% if section == "recent" %}class="selected"{% endif %}>
-                            <a href="{% url "recent" %}">Recent Questions</a>
-                        </li>
-                        <li {% if section == "question" %}class="selected"{% endif %}>
-                            <a href="{% url "question" %}">Questions</a>
-                        </li>
-                    </ul>
-                {% endif %}
-                <ul class="nav navbar-nav navbar-right">
-                    {% if request.user.is_authenticated %}
-                        <li class="dropdown">
+<header id="top" class="navbar navbar-default navbar-fixed-top flat-nav">
+    <div class="container-fluid">
+        <div class="navbar-header header_logo">
+            <button data-target=".flat-nav-collapse" data-toggle="collapse" type="button"
+                    class="nav-tog lines-button x navbar-toggle neutro">
+                <span class="sr-only sr-nav">Toggle Navigation</span>
+                <span class="lines"></span>
+            </button>
+            <a class="navbar-brand" href="http://127.0.0.1:8000">SAP Forum</a>
+        </div>
+        <!-- Main navigation block -->
+        <nav class="collapse navbar-collapse flat-nav-collapse" aria-label="Primary">
 
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">
-                                {{ request.user}}<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url "userview" request.user.pk request.user.username %}">profile</a>
-                                </li>
-                                <li><a href="{% url "edit" %}">Profile Edit</a></li>
-                                <li><a href="{% url "logout" %}">Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        {% comment %}
+            {% if request.user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-left custommenu">
+                    <li {% if section == "newquery" %}class="selected"{% endif %}>
+                        <a href="{% url "newquery" %}">New Post</a>
+                    </li>
+                    <li {% if section == "recent" %}class="selected"{% endif %}>
+                        <a href="{% url "recent" %}">Recent Questions</a>
+                    </li>
+                    <li {% if section == "question" %}class="selected"{% endif %}>
+                        <a href="{% url "question" %}">Questions</a>
+                    </li>
+                    <li {% if section == "myquestions" %}class="selected"{% endif %}>
+                        <a href="{% url "user_posts" %}">My Questions</a>
+                    </li>
+                    <li {% if section == "myanswers" %}class="selected"{% endif %}>
+                        <a href="{% url "user_answers" %}">My Answers</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-left custommenu">
+                    <li {% if section == "newquery" %}class="selected"{% endif %}>
+                        <a href="{% url "newquery" %}">New Post</a>
+                    </li>
+                    <li {% if section == "recent" %}class="selected"{% endif %}>
+                        <a href="{% url "recent" %}">Recent Questions</a>
+                    </li>
+                    <li {% if section == "question" %}class="selected"{% endif %}>
+                        <a href="{% url "question" %}">Questions</a>
+                    </li>
+                </ul>
+            {% endif %}
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url "edit" %}"><i class="material-icons headeredit">edit</i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            {% if request.user.profile.photo %}
+                                <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}"
+                                     class="headeravatarimg img-responsive" width="100" height="100">
+
+                            {% else %}
+                                <div class="headeravatar">
+                                    {{ request.user | make_list|first|title }}
+                                </div>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url "userview" request.user.pk request.user.username %}">profile</a>
+                            </li>
+                            <li><a href="{% url "logout" %}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    {% comment %}
                            firstof get the current path and login to that path
                         {% endcomment %}
-                        <li><a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+                    <div class="headerbtn">
+                        <li><a id="headerbtnref" href="{% url "login" %}?next=">Login</a></li>
+                    </div>
+                {% endif %}
+            </ul>
+
+        </nav>
+    </div>
 </header>
 
 {% if messages %}
@@ -104,14 +111,21 @@
     </ul>
 {% endif %}
 
-<div class="container-fluid">
+<div class="container-fluid fixedbody">
     {% block content %}
 
     {% endblock %}
 </div>
-<footer>
 
+
+<footer>
+    <div class="container-fluid footerbackground">
+        <div class="footertext">
+            <p>Copyright 2016-2017. SAP Forums Developed by Arms alias ARUN</p>
+        </div>
+    </div>
 </footer>
+
 <script src="{% static 'js/forum.js' %}"></script>
 {% block javascript %}{% endblock %}
 </body>

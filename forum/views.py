@@ -1,4 +1,5 @@
 import user
+import operator
 
 from django.contrib import messages
 from django.db.models import Q
@@ -174,21 +175,21 @@ def querydetail(request, year, month, day, slug):
       messages.error(request, "Newanswer not added")
 
   if 'correct_answer' in request.POST:
-      correctanswer = CorrectAnswerForm(data=request.POST)
-      if correctanswer.is_valid():
-        custom_correctanswer = correctanswer.save(commit=False)
-        custom_correctanswer.user = request.user
-        custom_correctanswer.post = question
-        answer_id = request.POST.get('correctanswer_id', "")
-        answer = Thread.objects.get(id=answer_id)
-        custom_correctanswer.answer = answer
-        if correct.count() < 1:
-          custom_correctanswer.save()
-          messages.success(request, "correct answer added successfully")
-        else:
-          messages.error(request, "Correct answer added already. You can't change")
+    correctanswer = CorrectAnswerForm(data=request.POST)
+    if correctanswer.is_valid():
+      custom_correctanswer = correctanswer.save(commit=False)
+      custom_correctanswer.user = request.user
+      custom_correctanswer.post = question
+      answer_id = request.POST.get('correctanswer_id', "")
+      answer = Thread.objects.get(id=answer_id)
+      custom_correctanswer.answer = answer
+      if correct.count() < 1:
+        custom_correctanswer.save()
+        messages.success(request, "correct answer added successfully")
       else:
-        messages.error(request, "correct Answer not added")
+        messages.error(request, "Correct answer added already. You can't change")
+    else:
+      messages.error(request, "correct Answer not added")
 
   answerform = NewAnswerForm()
   correctanswer = CorrectAnswerForm()
@@ -253,13 +254,31 @@ class HomeView(ListView):
   model = Post
   paginate_by = '7'
   queryset = Post.objects.all().order_by('-create')
-  context_object_name = "home"
+  context_object_name = "recent"
   template_name = 'forum/app/index.html'
+
+  def get_queryset(self):
+    result = super(HomeView, self).get_queryset()
+    post = Post.objects.all()
+    query = self.request.GET.get('query')
+    if query:
+      query_list = query.split()
+      result = post.filter(
+        reduce(operator.and_,
+               (Q(title__icontains=q) for q in query_list)) |
+        reduce(operator.and_,
+               (Q(description__icontains=q) for q in query_list))
+      )
+
+    return result
+
 
   def get_context_data(self, **kwargs):
     context = super(HomeView, self).get_context_data(**kwargs)
     context['announcements'] = Post.objects.all().filter(category=Post.ANNOUNCEMENT)
     context['general'] = Post.objects.all().filter(category=Post.GENERAL)
+    context['bugreport'] = Post.objects.all().filter(category=Post.BUGREPORT)
+    context['tips'] = Post.objects.all().filter(category=Post.TIPSANDTRICKS)
     return context
 
 
@@ -277,6 +296,22 @@ class GeneralView(ListView):
   context_object_name = "general"
   queryset = Post.objects.all().filter(category=Post.GENERAL)
   template_name = 'forum/app/general.html'
+
+
+class BugreportView(ListView):
+  model = Post
+  paginate_by = '10'
+  context_object_name = "bugreport"
+  queryset = Post.objects.all().filter(category=Post.BUGREPORT)
+  template_name = 'forum/app/bugreport.html'
+
+
+class TipsView(ListView):
+  model = Post
+  paginate_by = '10'
+  context_object_name = "tips"
+  queryset = Post.objects.all().filter(category=Post.TIPSANDTRICKS)
+  template_name = 'forum/app/tips.html'
 
 
 class UserView(DetailView):

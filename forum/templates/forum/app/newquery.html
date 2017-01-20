@@ -5,27 +5,56 @@
     <form action="." method="post">
 
         {% csrf_token %}
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="col-lg-2">
-                {% if request.user.profile.photo%}
-                    <div class="img-responsive img-circle">
-                      <a href="{% url "userview" request.user.id request.user.username %}"> <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}" class="img-circle img-responsive" width="100px"></a>
-                    </div>
+
+
+                {% if request.user.profile.photo %}
+
+                    <a href="{% url "userview" request.user.id request.user.username %}">
+                        <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}"
+                             class="headeravatarimg img-responsive">
+                    </a>
+
                 {% else %}
+
                     <div class="avatar">
-                     <a href="{% url "userview" request.user.id request.user.username %}">{{ request.user | make_list|first|title }}</a>
+                        <a href="{% url "userview" request.user.id request.user.username %}">{{ request.user | make_list|first|title }}</a>
                     </div>
+
                 {% endif %}
-            </div>
-            <div class="col-lg-10">
-                <div class="newquery clearfix">
-                    {{ query_form.media }}
-                    {% render_field query_form.title class="form-control" placeholder="Enter your query"%}
-                    {% render_field query_form.description class="form-control" placeholder="Add description"%}
-                    {% render_field query_form.category class="form-control" placeholder="select query category"%}
-                    <button class="btn btn-primary pull-right">Submit query</button>
+
+                <h4>Activities </h4>
+                <div class="row">
+                           <span class="col-lg-6">
+                            {% with userquestions.count as total_questions %}
+                                <span>{{ total_questions }}</span>
+                            {% endwith %}
+                               <span class="badge"> Questions </span>
+                           </span>
+                          <span class="col-lg-6">
+                           {% with useranswers.count as total_answers %}
+                               <span> {{ total_answers }}</span>
+                           {% endwith %}
+                              <span class="badge"> Answers </span>
+                          </span>
+
                 </div>
+
+
+            </div>
+
+            <div class="col-lg-10">
+
+                    {{ query_form.media }}
+                    <div class="col-xs-10 newquery">
+                        {% render_field query_form.title class="form-control" id="newquerytitle" placeholder="Enter your query" %}
+                        {% render_field query_form.description class="form-control" placeholder="Add description" %}
+                        {% render_field query_form.category class="form-control" placeholder="select query category" %}
+                        <button class="btn btn-primary pull-right">Submit query</button>
+                    </div>
+
             </div>
 
         </div>

@@ -52,6 +52,8 @@ def user_edit(request):
 @login_required
 def newquery(request):
   profile = Profile.objects.all()
+  userquestions = Post.objects.filter(user__username=request.user)
+  useranswers = Thread.objects.filter(user__username=request.user)
   if request.method == 'POST':
     query_form = NewQueryForm(request.POST)
     if query_form.is_valid():
@@ -65,7 +67,9 @@ def newquery(request):
   else:
     query_form = NewQueryForm()
   return render(request, "forum/app/newquery.html", {"query_form": query_form,
-                                                     "profile": profile})
+                                                     "profile": profile,
+                                                     "userquestions":userquestions,
+                                                     "useranswers":useranswers})
 
 
 @login_required

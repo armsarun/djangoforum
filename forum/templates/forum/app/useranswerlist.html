@@ -3,16 +3,27 @@
 {% block content %}
     <div class="container">
         {% for answer in answers %}
-            <div class="row">
-                <a href="{{ answer.post.get_absolute_url }}">
-                    {{ answer.post.title }}
-                </a>
-                <span class="row">
-                    {{ answer.content|safe }}  <a href="{% url "editanswer" answer.id answer.post.slug %}"> edit </a>
-                    <span class="pull-right"> {{ answer.create }}</span>
+            <div class="useranswerlist">
+                <div class="row">
+                    <a href="{{ answer.post.get_absolute_url }}">
+                        {{ answer.post.title }}
+                    </a>
+                </div>
+                <div class="row">
+                <span class="pull-left">
+                    {{ answer.content|safe }}
                 </span>
+                <span class="pull-right">
+                    <div class="userbtn">
+                        <a href="{% url "editanswer" answer.id answer.post.slug %}"> edit </a>
+                    </div>
+                </span>
+                </div>
+                <div class="row">
+                    <span class="label label-info ">{{ answer.create }}</span>
+                </div>
+
             </div>
-            <hr>
         {% empty %}
             <h2> No answers posted yet</h2>
         {% endfor %}

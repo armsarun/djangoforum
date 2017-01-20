@@ -7,12 +7,13 @@
         {% for query in post %}
 
             <div class="userquestionlist">
+
                 <a href="{{ query.get_absolute_url }}">
                     {{ query.title }}
                 </a>
 
                 {% if query.close %}
-                    <span class="label label-warning">Closed</span>
+                    <span class="label label-danger">Closed</span>
                 {% else %}
                     <span class="pull-right">
                         <div class="userbtn">
@@ -29,7 +30,10 @@
                     </div>
                     </span>
                 {% endif %}
-                <hr>
+
+                <div class="row posteddate">
+                   <span class="label label-info ">{{ query.create }} </span>
+                </div>
 
             </div>
 

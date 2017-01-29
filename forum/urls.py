@@ -64,8 +64,6 @@ urlpatterns = [
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),
 
-  url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.newcomment, name='comment'),
-
   # url(r'^(?P<slug>[-\w]+)/newanswer/$', views.newanswer , name = 'newanswer'),
   url(r'^(?P<pk>\d+)/(?P<username>[-\w]+)/profile/$', UserView.as_view(), name='userview'),
 

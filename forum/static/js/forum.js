@@ -4,9 +4,10 @@ function get_random_color() {
     for (var i = 0; i < 6; i++ ) {
         color += letters[Math.round(Math.random() * 15)];
     }
+
     return color;
 }
 
 $(".avatar,.headeravatar, .recentuseravatar").each(function() {
-    $(this).css("background-color", get_random_color());
+    $(this).css("background", get_random_color());
 });

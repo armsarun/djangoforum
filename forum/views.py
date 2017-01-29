@@ -195,42 +195,27 @@ def querydetail(request, year, month, day, slug):
     else:
       messages.error(request, "correct Answer not added")
 
+  if'post_comment' and request.POST:
+    commentform = CommentForm(request.POST)
+    if commentform.is_valid():
+      new_comment = commentform.save(commit=False)
+      answer_id = request.POST.get('answer_id', "")
+      answer = Thread.objects.get(id=answer_id)
+      obj, created = Comment.objects.get_or_create(user=request.user, \
+                                                   post=question, \
+                                                   answer=answer, comment=new_comment)
+    messages.success(request, 'comment added sucessfully')
+
   answerform = NewAnswerForm()
   correctanswer = CorrectAnswerForm()
+  commentform = CommentForm()
   return render(request, 'forum/app/querydetail.html', {'query': query,
                                                         'answers': answers,
                                                         'comment': comment,
                                                         'answerform': answerform,
                                                         'correct': correct,
-                                                        'correctanswer': correctanswer})
-
-
-@login_required
-def newcomment(request, slug, id):
-  query = get_object_or_404(Post, slug=slug)
-  # get the exact answer id from all answers
-  answers = query.answer.filter(id=id)
-  # Foreign key field instances
-  question = Post.objects.get(title=query.title)
-  answer = Thread.objects.get(id=id)
-  comments = answer.comment_answers.filter()
-  if request.method == 'POST':
-    commentform = CommentForm(request.POST)
-    if commentform.is_valid():
-      new_comment = commentform.save(commit=False)
-      obj, created = Comment.objects.get_or_create(user=request.user, \
-                                                   post=question, \
-                                                   answer=answer, comment=new_comment)
-      messages.success(request, 'comment added sucessfully "please click on close to see the comment"')
-    else:
-      messages.error(request, "comment not added")
-  else:
-    commentform = CommentForm()
-  return render(request, 'forum/app/newcomment.html', {'commentform': commentform,
-                                                       'query': query,
-                                                       'answers': answers,
-                                                       'comments': comments})
-
+                                                        'correctanswer': correctanswer,
+                                                        'commentform': commentform})
 
 def all_question(request):
   list = Post.objects.filter()

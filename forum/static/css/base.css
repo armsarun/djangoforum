@@ -10,6 +10,15 @@
 
 }
 
+ul.messages {
+  margin: 5px;
+  width: 50%;
+  left: 50px;
+  position: relative;
+}
+
+/*userlogin */
+
 .user_login {
   margin: auto;
 }
@@ -61,40 +70,61 @@
 
 }
 
-.cke_chrome {
-  border: 0px !important;
-}
+/*userlogin */
 
-.input-group {
-  margin: 20px 0px 30px 0px !important;
-}
+/*Profile edit*/
 
-.profile {
-  position: relative;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  padding: 32px;
-  margin: 5px 0px 20px 10%;
-  width: 50%;
-}
-
-iframe#comment_frame {
-  border: none;
+.profileform {
   width: 100%;
+  text-align: center;
+  padding: 20px 0px 0px 30px;
 }
+
+.profile .form-control {
+  width: 57%;
+  height: 50px;
+  margin: 20px 0px 20px 20px;
+  padding: 14px 10px 14px 10px;
+}
+
+input#profile_choose {
+  margin: 20px 0px 20px 20px;
+}
+
+#profile_submit {
+  background: #6cc644 repeat scroll 0 0;
+  border-radius: 3px;
+  display: inline-block;
+  line-height: 35px;
+  padding: 0 8px;
+  border: none;
+  color: #fff;
+}
+
+.profilesubmit {
+  width: 110%;
+  text-align: center;
+}
+
+/*Profile edit*/
+
+/*UserDetail*/
 
 .userdetials {
-  margin: 80px 30px 20px 90px;
+
 }
 
 .profiledetails {
-  margin: 0px 0px 0px 80px;
+
 }
 
 .useractivity {
-  line-height: 2;
+  margin: 10px 0px 0px 8px;
+  letter-spacing: 1px;
+  line-height: 40px;
 }
+
+/*UserDetail*/
 
 /*Don't display the checkbox for the correct answer*/
 
@@ -213,7 +243,7 @@ ul.nav.navbar-nav.navbar-left.custommenu {
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin: 0px 0px 0px 142px;
+  margin: 0px 0px 0px 75px;
 
 }
 
@@ -350,6 +380,11 @@ body {
 /*Homepage*/
 
 /*Recent Questions*/
+
+.navbar-toggle {
+  margin-right: -32px !important;
+}
+
 .recenttopic {
   border-bottom: 2px solid #6CC644;
 }
@@ -606,6 +641,15 @@ button#comment_button {
     width: 100% !important;
   }
 
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 75px;
+
+  }
+
 }
 
 /* Smartphones (portrait and landscape) ----------- */
@@ -644,6 +688,15 @@ and (max-device-width: 1024px) {
     width: 193% !important;
   }
 
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
 }
 
 /* iPads (landscape) ----------- */
@@ -662,6 +715,15 @@ and (orientation: landscape) {
 
   .answer_form .cke_chrome {
     width: 155% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 10px;
+
   }
 }
 
@@ -682,6 +744,16 @@ and (orientation: portrait) {
   .answer_form .cke_chrome {
     width: 155% !important;
   }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
 }
 
 /* Desktops and laptops ----------- */
@@ -700,6 +772,14 @@ and (min-width: 1224px) {
     width: 193% !important;
   }
 
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
 }
 
 /* Large screens ----------- */
@@ -718,6 +798,15 @@ and (min-width: 1824px) {
     width: 283% !important;
   }
 
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
 }
 
 /* iPhone 5 (portrait & landscape)----------- */
@@ -725,6 +814,9 @@ and (min-width: 1824px) {
 and (min-device-width: 320px)
 and (max-device-width: 568px) {
   /* STYLES GO HERE */
+  #homesearch {
+    font-size: 21px;
+  }
 }
 
 /* iPhone 5 (landscape)----------- */
@@ -733,6 +825,13 @@ and (min-device-width: 320px)
 and (max-device-width: 568px)
 and (orientation: landscape) {
   /* STYLES GO HERE */
+  #homesearch {
+    font-size: 24px !important;
+  }
+
+  #homesearchsubmit {
+    margin: 114px 8px 0;
+  }
 }
 
 /* iPhone 5 (portrait)----------- */
@@ -740,7 +839,30 @@ and (orientation: landscape) {
 and (min-device-width: 320px)
 and (max-device-width: 568px)
 and (orientation: portrait) {
-  /* STYLES GO HERE */
+  #homesearch {
+    font-size: 18px !important;
+  }
+
+  #homesearchsubmit {
+    margin: 114px 8px 0;
+  }
+}
+
+/*ipad portariat css */
+@media (max-width: 992px) {
+
+  ul.nav.navbar-nav.navbar-left.custommenu {
+    margin: 0px;
+  }
+
+  .homesearch_form {
+    margin: 19px 0px 0px 85px;
+  }
+
+  .homememberdetail {
+    margin: 8px 0px 0px -39px;
+  }
+
 }
 
 /*Media query end*/

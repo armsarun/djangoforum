@@ -10,14 +10,14 @@
       <schema id="2" parent="1" name="public">
         <object-id>2200</object-id>
         <comment>standard public schema</comment>
-        <introspection-state-number>3532</introspection-state-number>
-        <introspection-timestamp>2017-01-28.09:26:20.794</introspection-timestamp>
+        <introspection-state-number>4097</introspection-state-number>
+        <introspection-timestamp>2017-01-31.16:09:31.200</introspection-timestamp>
       </schema>
       <schema id="3" parent="1" name="pg_catalog">
         <object-id>11</object-id>
         <comment>system catalog schema</comment>
         <introspection-state-number>613</introspection-state-number>
-        <introspection-timestamp>2017-01-28.09:26:23.104</introspection-timestamp>
+        <introspection-timestamp>2017-01-31.15:52:27.535</introspection-timestamp>
       </schema>
       <sequence id="4" parent="2" name="auth_group_id_seq">
         <object-id>42568</object-id>
@@ -64,8 +64,8 @@
         <state-number>3160</state-number>
       </sequence>
       <sequence id="15" parent="2" name="forum_correctanswer_id_seq">
-        <object-id>395148</object-id>
-        <state-number>3532</state-number>
+        <object-id>460718</object-id>
+        <state-number>4097</state-number>
       </sequence>
       <sequence id="16" parent="2" name="forum_post_id_seq">
         <object-id>59110</object-id>
@@ -93,7 +93,7 @@
       </table>
       <table id="22" parent="2" name="auth_user">
         <object-id>42588</object-id>
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
       </table>
       <table id="23" parent="2" name="auth_user_groups">
         <object-id>42598</object-id>
@@ -128,12 +128,12 @@
         <state-number>3160</state-number>
       </table>
       <table id="31" parent="2" name="forum_correctanswer">
-        <object-id>395150</object-id>
-        <state-number>3532</state-number>
+        <object-id>460720</object-id>
+        <state-number>4097</state-number>
       </table>
       <table id="32" parent="2" name="forum_post">
         <object-id>59112</object-id>
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
       </table>
       <table id="33" parent="2" name="forum_profile">
         <object-id>42707</object-id>
@@ -141,7 +141,7 @@
       </table>
       <table id="34" parent="2" name="forum_thread">
         <object-id>59123</object-id>
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
       </table>
       <table id="35" parent="3" name="pg_aggregate">
         <object-id>2600</object-id>
@@ -21132,7 +21132,6 @@ group_id</columns>
       </key>
       <foreign-key id="3775" parent="23" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21193,7 +21192,6 @@ permission_id</columns>
       </key>
       <foreign-key id="3786" parent="24" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21247,7 +21245,6 @@ permission_id</columns>
       </key>
       <foreign-key id="3796" parent="25" name="avatar_avatar_user_id_ae13b50b_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21319,7 +21316,6 @@ permission_id</columns>
       </foreign-key>
       <foreign-key id="3810" parent="26" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21493,66 +21489,63 @@ model</columns>
       </key>
       <foreign-key id="3843" parent="30" name="forum_comment_answer_id_cace3e29_fk_forum_thread_id">
         <columns>answer_id</columns>
-        <ref-key>~.forum_thread.forum_thread_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="3844" parent="30" name="forum_comment_post_id_eb329692_fk_forum_post_id">
         <columns>post_id</columns>
-        <ref-key>~.forum_post.forum_post_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="3845" parent="30" name="forum_comment_user_id_ee1c4b93_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <column id="3846" parent="31" name="id">
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
         <default-expression>nextval(&apos;forum_correctanswer_id_seq&apos;::regclass)</default-expression>
       </column>
       <column id="3847" parent="31" name="correct_answer">
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
         <mandatory>1</mandatory>
         <data-type>boolean</data-type>
       </column>
       <column id="3848" parent="31" name="answer_id">
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
       </column>
       <column id="3849" parent="31" name="post_id">
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
       </column>
       <column id="3850" parent="31" name="user_id">
-        <state-number>3532</state-number>
+        <state-number>4097</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
       </column>
       <index id="3851" parent="31" name="forum_correctanswer_pkey">
-        <object-id>395154</object-id>
+        <object-id>460724</object-id>
         <columns>id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
       <index id="3852" parent="31" name="forum_correctanswer_fb12e902">
-        <object-id>395156</object-id>
+        <object-id>460726</object-id>
         <columns>answer_id</columns>
         <desc-columns></desc-columns>
       </index>
       <index id="3853" parent="31" name="forum_correctanswer_f3aa1999">
-        <object-id>395162</object-id>
+        <object-id>460732</object-id>
         <columns>post_id</columns>
         <desc-columns></desc-columns>
       </index>
       <index id="3854" parent="31" name="forum_correctanswer_e8701ad4">
-        <object-id>395168</object-id>
+        <object-id>460738</object-id>
         <columns>user_id</columns>
         <desc-columns></desc-columns>
       </index>
@@ -21656,7 +21649,7 @@ model</columns>
         <primary>1</primary>
       </key>
       <foreign-key id="3874" parent="32" name="forum_post_user_id_9caccb96_fk_auth_user_id">
-        <columns>user_id</columns>
+        <columns>close</columns>
         <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
@@ -21704,7 +21697,6 @@ model</columns>
       </key>
       <foreign-key id="3883" parent="33" name="forum_profile_user_id_91ac6f77_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>

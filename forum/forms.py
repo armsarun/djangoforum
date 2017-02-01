@@ -1,5 +1,7 @@
 from django import forms  # allow to use default form
 from django.contrib.auth.models import User
+from validatedfile.fields import QuotaValidator
+
 from .models import Profile, Post, Thread, Comment, Correctanswer
 
 
@@ -19,16 +21,21 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
+  email = forms.EmailField(
+    widget=forms.EmailInput(attrs={'required': 'required'}),
+    error_messages={'invalid': 'your custom error message'}
+  )
+
   class Meta:
     model = User
     fields = ('first_name', 'last_name', 'email')
 
 
 class ProfileEditForm(forms.ModelForm):
+
   class Meta:
     model = Profile
     fields = ('date_of_birth', 'photo')
-
 
 class NewQueryForm(forms.ModelForm):
   class Meta:
@@ -59,13 +66,14 @@ class CommentForm(forms.ModelForm):
     model = Comment
     fields = ('comment',)
 
+
 class AnswereditForm(forms.ModelForm):
-   class Meta:
+  class Meta:
     model = Thread
     fields = ('content',)
 
-class CorrectAnswerForm(forms.ModelForm):
-    class Meta:
-      model = Correctanswer
-      fields = ('correct_answer',)
 
+class CorrectAnswerForm(forms.ModelForm):
+  class Meta:
+    model = Correctanswer
+    fields = ('correct_answer',)

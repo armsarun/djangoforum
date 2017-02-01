@@ -168,4 +168,3 @@ CKEDITOR_CONFIGS = {
   },
 }
 
-IMAGE_TYPE = ['jpeg','png','jpg']

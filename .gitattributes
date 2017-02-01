@@ -1,6 +1,10 @@
 *        text=auto
 
+<<<<<<< HEAD
 *.html linguist-language=text
+=======
+*.html   text diff=text
+>>>>>>> 5cd05f2f011e0c2b16b981101a60e6b44a97bbe7
 *.sql    text
 
 *.js linguist-language=text

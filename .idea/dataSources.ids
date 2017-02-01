@@ -10,8 +10,8 @@
       <schema id="2" parent="1" name="public">
         <object-id>2200</object-id>
         <comment>standard public schema</comment>
-        <introspection-state-number>4097</introspection-state-number>
-        <introspection-timestamp>2017-01-31.16:09:31.200</introspection-timestamp>
+        <introspection-state-number>4161</introspection-state-number>
+        <introspection-timestamp>2017-02-01.15:05:42.147</introspection-timestamp>
       </schema>
       <schema id="3" parent="1" name="pg_catalog">
         <object-id>11</object-id>
@@ -93,7 +93,7 @@
       </table>
       <table id="22" parent="2" name="auth_user">
         <object-id>42588</object-id>
-        <state-number>4097</state-number>
+        <state-number>4161</state-number>
       </table>
       <table id="23" parent="2" name="auth_user_groups">
         <object-id>42598</object-id>
@@ -137,7 +137,7 @@
       </table>
       <table id="33" parent="2" name="forum_profile">
         <object-id>42707</object-id>
-        <state-number>1443</state-number>
+        <state-number>4161</state-number>
       </table>
       <table id="34" parent="2" name="forum_thread">
         <object-id>59123</object-id>
@@ -21568,7 +21568,6 @@ model</columns>
       </foreign-key>
       <foreign-key id="3858" parent="31" name="forum_correctanswer_user_id_7042d951_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21650,7 +21649,6 @@ model</columns>
       </key>
       <foreign-key id="3874" parent="32" name="forum_post_user_id_9caccb96_fk_auth_user_id">
         <columns>close</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21697,6 +21695,7 @@ model</columns>
       </key>
       <foreign-key id="3883" parent="33" name="forum_profile_user_id_91ac6f77_fk_auth_user_id">
         <columns>user_id</columns>
+        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -21749,7 +21748,6 @@ model</columns>
       </key>
       <foreign-key id="3893" parent="34" name="forum_thread_user_id_d501f243_fk_auth_user_id">
         <columns>user_id</columns>
-        <ref-key>~.auth_user.auth_user_pkey</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>

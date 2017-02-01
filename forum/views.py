@@ -7,13 +7,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, DetailView, ListView
-from django.http import JsonResponse
 
 from .forms import NewQueryForm, NewAnswerForm, EditQueryForm, CloseQueryForm, UserRegistrationForm, UserEditForm, \
   ProfileEditForm, CommentForm, AnswereditForm, CorrectAnswerForm
 
 from .models import Post, Thread, Profile, Comment, User, Correctanswer
-
 
 def user_registration(request):
   if request.method == 'POST':
@@ -33,7 +31,7 @@ def user_registration(request):
 def user_edit(request):
   if request.method == 'POST':
     user_form = UserEditForm(instance=request.user, data=request.POST)
-    profile_form = ProfileEditForm(instance=request.user.profile, user=request.user,
+    profile_form = ProfileEditForm(instance=request.user.profile,
                                    data=request.POST,
                                    files=request.FILES)
     if user_form.is_valid() and profile_form.is_valid():
@@ -45,7 +43,7 @@ def user_edit(request):
 
   else:
     user_form = UserEditForm(instance=request.user)
-    profile_form = ProfileEditForm(instance=request.user.profile, user=request.user)
+    profile_form = ProfileEditForm(instance=request.user.profile)
   return render(request, 'forum/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form })
 
 

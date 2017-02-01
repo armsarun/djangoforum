@@ -38,7 +38,6 @@ INSTALLED_APPS = [
   'django.contrib.staticfiles',
   'ckeditor',
   'widget_tweaks',
-  'validatedfile',
 ]
 
 MIDDLEWARE = [
@@ -169,3 +168,4 @@ CKEDITOR_CONFIGS = {
   },
 }
 
+IMAGE_TYPE = ['jpeg','png','jpg']

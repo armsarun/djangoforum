@@ -1,6 +1,7 @@
+from PIL import Image
 from django import forms  # allow to use default form
 from django.contrib.auth.models import User
-from validatedfile.fields import QuotaValidator
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Profile, Post, Thread, Comment, Correctanswer
 
@@ -32,10 +33,22 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileEditForm(forms.ModelForm):
-
   class Meta:
     model = Profile
     fields = ('date_of_birth', 'photo')
+
+  def clean_photo(self):
+    image = self.cleaned_data.get('photo', False)
+
+    if image:
+
+      # validate file size
+      if len(image) > (1 * 1024 * 1024):
+        raise forms.ValidationError(_('Image file too large ( maximum 1mb )'))
+    else:
+      raise forms.ValidationError(_("Couldn't read uploaded image"))
+    return image
+
 
 class NewQueryForm(forms.ModelForm):
   class Meta:

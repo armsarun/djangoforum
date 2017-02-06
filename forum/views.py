@@ -3,7 +3,6 @@ import operator
 
 from django.contrib import messages
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, DetailView, ListView
@@ -83,7 +82,7 @@ def user_answer(request):
 
 
 @login_required
-def userquestion_edit(request, slug):
+def userquery_edit(request, slug):
   edit = get_object_or_404(Post, slug=slug)
   if request.user == edit.user and edit.close == False:
     if request.method == 'POST':
@@ -93,9 +92,9 @@ def userquestion_edit(request, slug):
         update = editform.save(commit=False)
         update.user = request.user
         update.save()
-        messages.success(request, 'Question Updated successfully')
+        messages.success(request, "Answer update successfully")
       else:
-        messages.error(request, 'Question update failed')
+        messages.error(request, "Answer not updated")
     else:
       editform = EditQueryForm(instance=edit)
     return render(request, 'forum/app/userqueryedit.html', {'edit': edit,
@@ -202,7 +201,7 @@ def querydetail(request, year, month, day, slug):
       obj, created = Comment.objects.get_or_create(user=request.user, \
                                                    post=question, \
                                                    answer=answer, comment=new_comment)
-    messages.success(request, 'comment added sucessfully')
+      messages.success(request, 'comment added sucessfully')
 
   answerform = NewAnswerForm()
   correctanswer = CorrectAnswerForm()
@@ -239,7 +238,7 @@ class RecentView(ListView):
 
 class HomeView(ListView):
   model = Post
-  paginate_by = '7'
+  paginate_by = '3'
   queryset = Post.objects.all().order_by('-create')
   context_object_name = "recent"
   template_name = 'forum/app/index.html'

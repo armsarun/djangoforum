@@ -7,6 +7,7 @@ from autoslug import AutoSlugField
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 
+
 class Profile(models.Model):
 
   user = models.OneToOneField(settings.AUTH_USER_MODEL,related_name='profile')

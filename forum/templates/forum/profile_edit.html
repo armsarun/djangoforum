@@ -10,15 +10,8 @@
                 {% for hidden in user_form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
-                <div class="profile">
-                    <div class=" row login_error">
-                        {% if form.non_field_errors %}
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
-                            {% endfor %}
-                        {% endif %}
 
-                    </div>
+                <div class="profile">
                     <div class="form-group">
                         {% render_field user_form.first_name class="form-control input-md" placeholder="Enter FirstName" %}
                         {% render_field user_form.last_name class="form-control input-md" placeholder="Enter Lastname" %}
@@ -31,7 +24,22 @@
                     <div class="form-group">
 
                         {% render_field profile_form.date_of_birth class="form-control input-md" placeholder="yyyy-mm-dd" %}
-                        {% render_field profile_form.photo id="profile_choose" onclick="profile_validate" %}
+
+                        <div class="profileformerror">
+                            {% if profile_form.errors %}
+                                {% for field in profile_form %}
+                                    {% for error in field.errors %}
+                                        <div class="label label-danger">
+
+                                               {{ error|escape }}
+
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        {% render_field profile_form.photo id="profile_choose"%}
 
                     </div>
                 </div>

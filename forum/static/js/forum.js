@@ -1,4 +1,4 @@
-$(".avatar,.headeravatar, .recentuseravatar").each(function () {
+$(".queryavatar,.headeravatar, .recentuseravatar").each(function () {
   var color;
   var letter = $(this).text()
   var a = letter.match(/a/i);
@@ -53,24 +53,10 @@ $(".avatar,.headeravatar, .recentuseravatar").each(function () {
     $(this).css("background", color);
   }
   else {
-    color = "#1E90FF";
-    $(this).css("background", color);
+    // color = "#1E90FF";
+    // $(this).css("background", color);
   }
 });
 
 
-// profileedit
 
-function profile_validate() {
-  var upload = $('#profile_submit').value
-  if (upload !="") {
-    var ext = $('#profile_choose').val().split('.').pop().toLowerCase();
-    if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-      alert('invalid File!');
-    }
-  }
-
-}
-
-
-//profileedit

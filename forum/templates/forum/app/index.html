@@ -3,8 +3,8 @@
 {% block content %}
 
     <div class="container-fluid searchbackgorund">
-        <div class="container">
 
+        <div class="container">
             <div class="row">
                 <div class="col-sm-10 col-lg-8 col-md-12 col-xs-9 homesearchbackground">
 
@@ -20,128 +20,95 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 
-    <div class="container">
-        <div class="col-lg-12">
-            <div class="row">
-                <table class="table table-responsive ">
-                    <tr>
-                        <th class="hometablehead" id="category">Question</th>
-                        <th class="hometablehead homecenter" id="recentanswer">Answers</th>
-                        <th class="hometablehead " id="recentuser">Posted User</th>
-                    </tr>
-                    {% for eachquery in recent %}
-                        <tr>
-                            <td>
-                                <a href="{{ eachquery.get_absolute_url }}">{{ eachquery.title }}</a>
-                            </td>
-                            <td class="homecenter">
-                                <span class="badge">{{ eachquery.answer.count }}</span>
-                            </td>
-                            <td>
-                                <div class="row">
-                                    {% if eachquery.user.profile.photo %}
-                                        <div class="col-lg-6">
-                                            <img src="{{ MEDIA_URL }}{{ eachquery.user.profile.photo.url }}"
-                                                 class="headeravatarimg img-responsive" width="100" height="100">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="homememberdetail">
-                                                <span class="label label-info">member from {{ eachquery.user.date_joined | timesince }}</span>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="col-lg-6">
-                                            <div class="recentuseravatar">
-                                                {{ eachquery.user | make_list|first|title }}
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="homememberdetail">
-                                                <span class="label label-info">member from{{ eachquery.user.date_joined | timesince }}</span>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
+    <div class=" container-fluid homecontentbackground">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {% for eachquery in recent %}
+                <div class="post">
+                    <div class="wrap-ut pull-left">
+                        <div class="userinfo pull-left">
+                            <div class="avatar">
+                                {% if eachquery.user.profile.photo %}
+                                    <img src="{{ MEDIA_URL }}{{ eachquery.user.profile.photo.url }}"
+                                         class="headeravatarimg img-responsive">
+                                {% else %}
+                                    <div class="recentuseravatar">
+                                        {{ eachquery.user | make_list|first|title }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="icons">
+{#                               <div class="badge">{{ eachquery.user.date_joined | timesince}}</div>#}
+                                {{ eachquery.user.date_joined|timesince }}
+                            </div>
 
+                        </div>
+                        <div class="posttext pull-left">
+                            <h2><a href="{{ eachquery.get_absolute_url }}">{{ eachquery.title }}</a></h2>
+                            <p>{{ eachquery.description | safe }}</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="postinfo pull-left">
+                        <div class="comments">
+                            <div class="commentbg">
+                                {{ eachquery.answer.count }}
+                                <div class="mark"></div>
+                            </div>
+
+                        </div>
+                        <div class="time"><i class="fa fa-clock-o"></i>{{ eachquery.create | timesince }}</div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            {% endfor %}
+            {% include "forum/app/paginator.html" %}
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="sidebarblock">
+                <h3>Categories</h3>
+                <div class="divline"></div>
+                <div class="blocktxt">
+                    <ul class="cats">
+                        <li>
+                            <a href="{% url "general" %}">General
+                                {% with general.count as total_answers %}
+                                    <span class="badge pull-right">{{ total_answers }}</span>
+                                {% endwith %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "announcement" %}">Announcement
+                                {% with announcements.count as total_answers %}
+                                    <span class="badge pull-right">{{ total_answers }}</span>
+                                {% endwith %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "bugreport" %}">Bug Report
+                                {% with bugreport.count as total_answers %}
+                                    <span class="badge pull-right">{{ total_answers }}</span>
+                                {% endwith %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "tips" %}">Looking for Players
+                                {% with bugreport.count as total_answers %}
+                                    <span class="badge pull-right">{{ total_answers }}</span>
+                                {% endwith %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div class="container homecategorycolor">
-        <div class="col-lg-12">
 
-            <div class="row">
-
-                <table class="table table-responsive" id="homecategory">
-                    <tr>
-                        <th class="hometablehead" id="category">Category</th>
-                        <th class="hometablehead" id="question">Questions</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="{% url "announcement" %}">Announcement</a>
-                        </td>
-                        <td>
-                            {% with announcements.count as total_answers %}
-                                <h5>
-                                    <span class="badge">{{ total_answers }}</span>
-
-                                </h5>
-                            {% endwith %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="{% url "general" %}">General</a>
-                        </td>
-                        <td>
-                            {% with general.count as total_answers %}
-                                <h5>
-                                    <span class="badge">{{ total_answers }}</span>
-
-                                </h5>
-                            {% endwith %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="{% url "bugreport" %}">Bug Report</a>
-                        </td>
-                        <td>
-                            {% with bugreport.count as total_answers %}
-                                <h5>
-                                    <span class="badge">{{ total_answers }}</span>
-
-                                </h5>
-                            {% endwith %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="{% url "tips" %}">Tips and tricks</a>
-                        </td>
-                        <td>
-                            {% with tips.count as total_answers %}
-                                <h5>
-                                    <span class="badge">{{ total_answers }}</span>
-
-                                </h5>
-                            {% endwith %}
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-        </div>
-    </div>
 
 
 {% endblock %}

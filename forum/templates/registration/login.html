@@ -26,12 +26,18 @@
                             {% render_field form.username class="form-control input-md" placeholder="Enter Username" %}
                             {% render_field form.password class="form-control input-md" placeholder="Enter Password" %}
                             <input type="hidden" name="next" value="{{ next }}"/>
-                            <button class="btn btn-def btn-block">Login</button>
+                            <div class="loginbutton">
+                                <button class="btn btn-def btn-block">Login</button>
+                            </div>
                             <span><a href="{% url "password_reset" %}">Forget your password?</a></span>
                             <span class="row">
                                 <div class="sign-up">
                                      <h5>Don't have account?</h5>
-                                     <button class="btn btn-def btn-block"><a href="{% url "register" %}">Signup</a></button>
+                                    <div class="signupbutton">
+                                        <button class="btn btn-def btn-block">
+                                            <a href="{% url "register" %}">Signup</a>
+                                        </button>
+                                    </div>
                                 </div>
                             </span>
                         </div>

@@ -1,8 +1,8 @@
-from PIL import Image
 from django import forms  # allow to use default form
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 
+from django.utils.translation import ugettext_lazy as _
 from .models import Profile, Post, Thread, Comment, Correctanswer
 
 
@@ -31,8 +31,26 @@ class UserEditForm(forms.ModelForm):
     model = User
     fields = ('first_name', 'last_name', 'email')
 
+class ImageWidget(forms.FileInput):
+    """A ImageField Widget for nonadmin that shows a thumbnail."""
+
+    def __init__(self, attrs={}):   # pylint: disable=E1002,W0102
+        super(ImageWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):  # pylint: disable=E1002
+        output = []
+        css = {'style': 'clear:left;float:left;margin:1em 1em 0 0;'}
+        output.append(super(ImageWidget, self).render(name, value,
+                                                           attrs=css))
+        if value and hasattr(value, "url"):
+            output.append(('<a target="_blank" href="%s">'
+                           '<img src="%s" alt="" '
+                           'style="width:100px;height:100px" class="img-responsive"/></a> '
+                           % (value.url, value.url)))
+        return mark_safe(u''.join(output))
 
 class ProfileEditForm(forms.ModelForm):
+  photo = forms.ImageField(label=_('photo'),required=False, error_messages = {'invalid':_("Image files only")}, widget=ImageWidget)
   class Meta:
     model = Profile
     fields = ('date_of_birth', 'photo')
@@ -45,6 +63,7 @@ class ProfileEditForm(forms.ModelForm):
       # validate file size
       if len(image) > (1 * 1024 * 1024):
         raise forms.ValidationError(_('Image file too large ( maximum 1mb )'))
+
     else:
       raise forms.ValidationError(_("Couldn't read uploaded image"))
     return image

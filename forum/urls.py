@@ -59,7 +59,7 @@ urlpatterns = [
   url(r'^myanswers/', views.user_answer, name='user_answers'),
 
   #edit posted question
-  url(r'^(?P<slug>[-\w]+)/edit$', views.userquestion_edit, name='question_edit'),
+  url(r'^(?P<slug>[-\w]+)/edit/$', views.userquery_edit, name='question_edit'),
 
   #clsoe the user question
   url(r'^(?P<slug>[-\w]+)/close/$', views.userquery_close, name='question_close'),

@@ -1,39 +1,60 @@
 {% if is_paginated %}
-  <nav>
-    <ul class="pagination">
-      {% if page_obj.has_previous %}
-        <li>
-          <a href="?page={{ page_obj.previous_page_number }}">
-            <span>Previous</span>
-          </a>
-        </li>
-      {% else %}
-        <li class="disabled">
-          <a href="#">
-            <span>Previous</span>
-          </a>
-        </li>
-      {% endif %}
+    <nav>
+        <ul class="paginationform">
 
-      {% for page in paginator.page_range %}
-        <li {% if page == page_obj.number %}class="active"{% endif %}>
-          <a href="?page={{ page }}">{{ page }}</a>
-        </li>
-      {% endfor %}
+            <div class="pull-left">
+                {% if page_obj.has_previous %}
 
-      {% if page_obj.has_next %}
-        <li>
-          <a href="?page={{ page_obj.next_page_number }}">
-            <span>Next</span>
-          </a>
-        </li>
-      {% else %}
-        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-          <a href="#">
-            <span>Next</span>
-          </a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
+                    <li>
+                        <span class="prevnext">
+                            <a href="?page={{ page_obj.previous_page_number }}">
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                        </span>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <span class="prevnext">
+                            <a href="#">
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                         </span>
+                    </li>
+
+                {% endif %}
+
+            </div>
+
+            <div class="pull-left">
+
+                {% for page in paginator.page_range %}
+                    <li {% if page == page_obj.number %}class="active"{% endif %}>
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+            </div>
+
+            <div class="pull-left">
+                {% if page_obj.has_next %}
+                    <li>
+                        <span class="prevnext last">
+                            <a href="?page={{ page_obj.next_page_number }}">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </span>
+                    </li>
+                {% else %}
+                    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+                        <span class="prevnext last">
+                            <a href="#">
+                                 <i class="material-icons">chevron_right</i>
+                            </a>
+                        </span>
+                    </li>
+                {% endif %}
+            </div>
+
+        </ul>
+    </nav>
 {% endif %}

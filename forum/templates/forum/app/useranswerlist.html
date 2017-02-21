@@ -1,31 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Useranswer{% endblock %}
 {% block content %}
-    <div class="container">
-        {% for answer in answers %}
-            <div class="useranswerlist">
-                <div class="row">
-                    <a href="{{ answer.post.get_absolute_url }}">
-                        {{ answer.post.title }}
-                    </a>
-                </div>
-                <div class="row">
-                <span class="pull-left">
-                    {{ answer.content|safe }}
-                </span>
-                <span class="pull-right">
-                    <div class="userbtn">
-                        <a href="{% url "editanswer" answer.id answer.post.slug %}"> edit </a>
+    <div class=" container-fluid useranswerbackground">
+
+        <div class="container">
+            {% for answer in answers %}
+
+                <div class="user_q_back">
+
+                    <div class="useranswercontent">
+                        <div class="row">
+                        <span class="recent_q_detail_title">
+                            <a href="{{ answer.post.get_absolute_url }}">
+                                {{ answer.post.title }}
+                            </a>
+                        </span>
+                         <span class="pull-right">
+                                <div class="userbtn">
+                                    <a href="{% url "editanswer" answer.id answer.post.slug %}"> edit </a>
+                                </div>
+                         </span>
+                        </div>
+                        <div class="row">
+                            <span class="pull-left">
+                                {{ answer.content|safe }}
+                            </span>
+                        </div>
                     </div>
-                </span>
-                </div>
-                <div class="row">
-                    <span class="label label-info ">{{ answer.create }}</span>
+
+                    <div class="row">
+                        <div class="answer_userdetail">
+                            <span class="answer_update">Posted On: &nbsp; {{ answer.create | date }}</span>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
-        {% empty %}
-            <h2> No answers posted yet</h2>
-        {% endfor %}
+
+            {% empty %}
+                <h2> No answers posted yet</h2>
+            {% endfor %}
+        </div>
     </div>
+
 {% endblock %}

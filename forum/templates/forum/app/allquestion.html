@@ -1,69 +1,87 @@
 {% extends "base.html" %}
 {% block title %}Post{% endblock %}
 {% block content %}
-    <div class="container">
 
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <form method="GET" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="query" placeholder="Search">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                            <span>Search</span>
-                        </button>
-                    </span>
-                    </div>
-                </form>
+    <div class=" container-fluid recentbackground">
+
+
+        <div class="container">
+            <div class="question_search">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <form method="GET" action="">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="query" placeholder="Search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                   <span>Search</span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
+        <div class="container">
 
-        <div class="row">
+            {% for query in list %}
 
-            <table class="table table-responsive">
-                <tr>
-                    <th class="hometablehead recenttopic">Questions</th>
-                    <th class="hometablehead recentblack">Posted User</th>
-                    <th class="hometablehead recentblack">Answers</th>
-                    <th class="hometablehead recentblack">Last Updated time</th>
-                </tr>
-                <tr>
-                    {% for query in list %}
-                        <td>
-
-                            <a href="{{ query.get_absolute_url }}">
-                                {{ query.title }}
-                            </a>
-                            {% if query.close %}
-                                <span class="label label-warning">Closed</span>
-                            {% endif %}
-
-                        </td>
-                        <td>
+                <div class="recent_q_back">
+                    <div class="col-lg-1 col-sm-4 col-xs-4 col-md-1">
+                        <div class="pull-left">
                             {% if query.user.profile.photo %}
-                                <div class="row">
-                                    <img src="{{ MEDIA_URL }}{{ query.user.profile.photo.url }}"
-                                         class="headeravatarimg img-responsive" width="100" height="100">
-                                    <span class="label label-info">member from {{ query.user.date_joined | timesince }}</span>
+
+                                <div class="recent_q_userimg">
+                                    <img src="{{ MEDIA_URL }}{{ query.user.profile.photo.url }}" class="img-responsive">
                                 </div>
                             {% else %}
-                                <div class="recentuseravatar">
+                                <div class="">
                                     {{ query.user | make_list|first|title }}
                                 </div>
-                                <span class="label label-info">since member{{ query.user.date_joined | timesince }}</span>
                             {% endif %}
-                        </td>
-                        <td>
-                            {{ query.answer.count }}
-                        </td>
-                        <td>
-                            {{ query.create |timesince }} ago
-                        </td>
-                        </tr>
-                    {% endfor %}
-            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-11 col-sm-8 col-xs-8 col-md-11">
+                        <div class="recent_q_detail">
+                            <div class="row">
+                               <span class="recent_q_detail_title">
+                                    <a href="{{ query.get_absolute_url }}">{{ query.title }}</a>
+                               </span>
+
+                                {% if query.close %}
+                                    <span class="label label-warning">Closed</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <span class="recent_q_desc">{{ query.description | safe }}</span>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="recent_q_userdetail">
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_user">By {{ query.user }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_update">Updated {{ query.create |timesince }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_answers">{{ query.answer.count }} Replies</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endfor %}
 
         </div>
+
     </div>
+
+
 {% endblock %}

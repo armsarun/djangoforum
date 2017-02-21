@@ -2,19 +2,29 @@
 {% load widget_tweaks %}
 {% block title %}Post{% endblock %}
 {% block content %}
+    <div class="container">
         <form action="." method="post">
-            {% for hidden in closeform.hidden_fields %}
+            {{ closeform.media }}
+            {% csrf_token %}
+
+            {% for hidden in user_form.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            {% for field in closeform.visible_fields %}
-                <div class="form-group">
-                    {{ field|add_class:'form-control' }}
-                    {% for error in field.errors %}
-                        <span class="help-block">{{ error }}</span>
-                    {% endfor %}
+
+            <div class="col-xs-10">
+
+                <div class="closeform">
+                    <div class="closebutton">
+                        {% render_field closeform.close class="form-control input-xs" id="close_switch" data-toggle="toggle" data-on="Close" data-off="Not closed" %}
+                    </div>
+                    {% render_field closeform.closed_reason class="form-control input-sm" id="close_contentc" placeholder="Enter close reason" %}
+
                 </div>
-            {% endfor %}
-            {% csrf_token %}
-            <p><input type="submit" value="Post new Answer"></p>
+                <div class="closebtn">
+                    <button type="submit" class="btn closebutton">Close Query</button>
+                </div>
+
+            </div>
         </form>
+    </div>
 {% endblock %}

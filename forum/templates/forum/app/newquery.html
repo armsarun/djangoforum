@@ -2,50 +2,53 @@
 {% load widget_tweaks %}
 {% block title %}Post{% endblock %}
 {% block content %}
-    <form action="." method="post">
+    <div class="container newqueryfont">
 
-        {% csrf_token %}
-        <div class="container-fluid">
+        <form action="." method="post">
 
-            <div class="col-lg-2">
+            {% csrf_token %}
+            <div class="container-fluid">
 
+                <div class="col-lg-2">
 
-                {% if request.user.profile.photo %}
+                    {% if request.user.profile.photo %}
 
-                    <a href="{% url "userview" request.user.id request.user.username %}">
-                        <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}"
-                             class="headeravatarimg img-responsive">
-                    </a>
+                        <a href="{% url "userview" request.user.id request.user.username %}">
+                            <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}"
+                                 class="headeravatarimg img-responsive">
+                        </a>
 
-                {% else %}
+                    {% else %}
 
-                    <div class="avatar">
-                        <a href="{% url "userview" request.user.id request.user.username %}">{{ request.user | make_list|first|title }}</a>
+                        <div class="avatar">
+                            <a href="{% url "userview" request.user.id request.user.username %}">{{ request.user | make_list|first|title }}</a>
+                        </div>
+
+                    {% endif %}
+
+                    <h4>Activities </h4>
+                    <div class="row">
+                           <span class="col-lg-12">
+                               <h4>Posted Questions</h4>
+                               {% with userquestions.count as total_questions %}
+                                   <div class="newqueryuserdetail">{{ total_questions }}</div>
+                               {% endwith %}
+                               <div class="badge"> Questions </div>
+                           </span>
+                          <span class="col-lg-12">
+                              <h4>Posted Answers</h4>
+                              {% with useranswers.count as total_answers %}
+                                  <div class="newqueryuserdetail"> {{ total_answers }}</div>
+                              {% endwith %}
+                              <div class="badge"> Answers </div>
+                          </span>
+
                     </div>
 
-                {% endif %}
-
-                <h4>Activities </h4>
-                <div class="row">
-                           <span class="col-lg-6">
-                            {% with userquestions.count as total_questions %}
-                                <span>{{ total_questions }}</span>
-                            {% endwith %}
-                               <span class="badge"> Questions </span>
-                           </span>
-                          <span class="col-lg-6">
-                           {% with useranswers.count as total_answers %}
-                               <span> {{ total_answers }}</span>
-                           {% endwith %}
-                              <span class="badge"> Answers </span>
-                          </span>
 
                 </div>
 
-
-            </div>
-
-            <div class="col-lg-10">
+                <div class="col-lg-10">
 
                     {{ query_form.media }}
                     <div class="col-xs-10 newquery">
@@ -55,8 +58,9 @@
                         <button class="btn btn-primary pull-right">Submit query</button>
                     </div>
 
-            </div>
+                </div>
 
-        </div>
-    </form>
+            </div>
+        </form>
+    </div>
 {% endblock %}

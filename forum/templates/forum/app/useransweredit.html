@@ -2,21 +2,38 @@
 {% load widget_tweaks %}
 {% block title %}Post{% endblock %}
 {% block content %}
-    <form action="." method="post">
-        {{ editform.media }}
-        {% for hidden in editform.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        {% for field in editform.visible_fields %}
-            <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field|add_class:'form-control' }}
-                {% for error in field.errors %}
-                    <span class="help-block">{{ error }}</span>
-                {% endfor %}
+    <div class="container">
+        <form action="." method="post">
+
+            {{ editform.media }}
+            {% csrf_token %}
+
+            {% for hidden in user_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="editformerror">
+                {% if editform.errors %}
+                    {% for field in editform %}
+                        {% for error in field.errors %}
+                            <div class="label label-danger">
+
+                                {{ error|escape }}
+
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
             </div>
-        {% endfor %}
-        {% csrf_token %}
-        <button type="submit">Edit Post</button>
-    </form>
+            <div class="col-xs-10">
+                <div class="answeredit">
+                    {% render_field editform.content class="form-control input-md" placeholder="Update the title" %}
+                </div>
+                <div class="answereditbtn pull-right">
+                    <button type="submit" class="btn answereditbutton">Edit Answer</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
 {% endblock %}

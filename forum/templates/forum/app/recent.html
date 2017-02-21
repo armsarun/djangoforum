@@ -2,51 +2,68 @@
 {% block title %}Post{% endblock %}
 {% block content %}
 
-    <div class="container">
+    <div class=" container-fluid recentbackground">
 
-        <div class="recenttable">
-            <table class="table table-hover table-responsive">
-                <tr>
-                    <th class="hometablehead recenttopic">Topic</th>
-                    <th class="hometablehead recentblack">Posted User</th>
-                    <th class="hometablehead recentblack">Answers</th>
-                    <th class="hometablehead recentblack posteddate">Posted Date</th>
-                </tr>
-                <tr>
-                    {% for each in recent %}
-                        <td>
-                            <a href="{{ each.get_absolute_url }}">
-                                {{ each.title }}
-                            </a>
+        <div class="container">
 
-                            {% if each.close %}
-                                <span class="label label-warning">Closed</span>
-                            {% endif %}
+            {% for each in recent %}
 
-                        </td>
-                        <td>
+                <div class="recent_q_back">
+                    <div class="col-lg-1 col-sm-4 col-xs-4 col-md-1">
+                        <div class="pull-left">
                             {% if each.user.profile.photo %}
-                                <div class="row">
-                                    <img src="{{ MEDIA_URL }}{{ each.user.profile.photo.url }}"
-                                         class="headeravatarimg img-responsive" width="100" height="100">
-                                    <span class="label label-info">member from {{ each.user.date_joined | timesince }}</span>
+
+                                <div class="recent_q_userimg">
+                                    <img src="{{ MEDIA_URL }}{{ each.user.profile.photo.url }}" class="img-responsive">
                                 </div>
                             {% else %}
-                                <div class="recentuseravatar">
+                                <div class="">
                                     {{ each.user | make_list|first|title }}
                                 </div>
-                                <span class="label label-info">since member{{ each.user.date_joined | timesince }}</span>
                             {% endif %}
-                        </td>
-                        <td>
-                            <span class="badge">{{ each.answer.count }}</span>
-                        </td>
-                        <td> {{ each.create |timesince }}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-11 col-sm-8 col-xs-8 col-md-11">
+                        <div class="recent_q_detail">
+                            <div class="row">
+                               <span class="recent_q_detail_title">
+                                   <a href="{{ each.get_absolute_url }}">{{ each.title }}</a>
+                               </span>
+
+                                {% if each.close %}
+                                    <span class="label label-warning">Closed</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <span class="recent_q_desc">{{ each.description | safe }}</span>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="recent_q_userdetail">
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_user">By {{ each.user }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_update">Updated {{ each.create |timesince }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_answers">{{ each.answer.count }} Replies</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
         </div>
 
     </div>
+
 
 {% endblock %}

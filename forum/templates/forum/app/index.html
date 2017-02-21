@@ -40,8 +40,7 @@
                                 {% endif %}
                             </div>
                             <div class="icons">
-{#                               <div class="badge">{{ eachquery.user.date_joined | timesince}}</div>#}
-                                {{ eachquery.user.date_joined|timesince }}
+                               Since {{ eachquery.user.date_joined|timesince }}
                             </div>
 
                         </div>
@@ -95,7 +94,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{% url "tips" %}">Looking for Players
+                            <a href="{% url "tips" %}">Tips and Tricks
                                 {% with bugreport.count as total_answers %}
                                     <span class="badge pull-right">{{ total_answers }}</span>
                                 {% endwith %}

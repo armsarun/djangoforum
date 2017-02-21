@@ -58,5 +58,13 @@ $(".queryavatar,.headeravatar, .recentuseravatar").each(function () {
   }
 });
 
+$(".comment_section").hide()
+
+$('.showcomment').click(function () {
+  $(this).nextAll(".comment_section").slice(0, 2).toggle();
+})
 
 
+$(".close").click(function () {
+  $(".messages").remove();
+})

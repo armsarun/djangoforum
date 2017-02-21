@@ -238,7 +238,7 @@ class RecentView(ListView):
 
 class HomeView(ListView):
   model = Post
-  paginate_by = '3'
+  paginate_by = '30'
   queryset = Post.objects.all().order_by('-create')
   context_object_name = "recent"
   template_name = 'forum/app/index.html'

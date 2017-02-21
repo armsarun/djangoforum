@@ -2,45 +2,70 @@
 {% block title %}Userquestions{% endblock %}
 {% block content %}
 
-    <div class="container">
+    <div class=" container-fluid userquerybackground">
 
-        {% for query in post %}
+        <div class="container">
 
-            <div class="userquestionlist">
+            {% for each in post %}
 
-                <a href="{{ query.get_absolute_url }}">
-                    {{ query.title }}
-                </a>
+                <div class="user_q_back">
 
-                {% if query.close %}
-                    <span class="label label-danger">Closed</span>
-                {% else %}
-                    <span class="pull-right">
-                        <div class="userbtn">
-                            <a id="userbtnref" href="{% url "question_close" query.slug %}">close</a>
+                    <div class="user_q_detail">
+
+                        <div class="row">
+                            <div class="userquerydetailabove">
+                                <span class="recent_q_detail_title">
+                                      <a href="{{ each.get_absolute_url }}">{{ each.title }}</a>
+                                </span>
+
+                                <span>
+                                    {% if each.close %}
+                                    {% else %}
+                                        <span class="pull-right">
+                                            <div class="userbtn">
+                                               <a id="userbtnref" href="{% url "question_edit" each.slug %}">edit</a>
+                                            </div>
+                                         </span>
+                                    {% endif %}
+
+                                    {% if each.close %}
+                                        <span class="label label-danger">Closed</span>
+                                    {% else %}
+                                        <span class="pull-right">
+                                             <div class="userbtn">
+                                                 <a id="userbtnref"
+                                                    href="{% url "question_close" each.slug %}">close</a>
+                                             </div>
+                                         </span>
+                                    {% endif %}
+                                </span>
+
+                            </div>
+
                         </div>
-                    </span>
-                {% endif %}
 
-                {% if query.close %}
-                {% else %}
-                    <span class="pull-right">
-                    <div class="userbtn">
-                    <a id="userbtnref" href="{% url "question_edit" query.slug %}">edit</a>
+                        <div class="row">
+                            <div class="recent_q_userdetail">
+                                <div class="col-sm-6">
+                                    <span class="recent_q_update">Updated {{ each.create }} ago</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="user_q_answers">{{ each.answer.count }} Replies</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    </span>
-                {% endif %}
 
-                <div class="row posteddate">
-                   <span class="label label-info ">{{ query.create }} </span>
                 </div>
 
-            </div>
-
-                {% empty %}
+            {% empty %}
                 <h2> No Question post yet</h2>
                 <a href="{% url "newquery" %}">Post Your first Query</a>
-        {% endfor %}
+
+            {% endfor %}
+
+        </div>
 
     </div>
 

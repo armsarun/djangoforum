@@ -12,7 +12,7 @@
                 <div class="col-lg-6">
                     {% if request.user.profile.photo %}
                         <img src="{{ MEDIA_URL }}{{ request.user.profile.photo.url }}"
-                             class="img-responsive" width="100" height="100">
+                             class="img-responsive" width="250" height="250">
 
                     {% else %}
 
@@ -40,15 +40,15 @@
                     <div class="row">
                            <span class="col-lg-6">
                             {% with userquestions.count as total_questions %}
-                                <span>{{ total_questions }}</span>
+                                <div class="newq_anscount">{{ total_questions }}</div>
                             {% endwith %}
-                               <span class="badge"> Questions </span>
+                               <div class="badge"> Questions </div>
                            </span>
                           <span class="col-lg-6">
                            {% with useranswers.count as total_answers %}
-                               <span> {{ total_answers }}</span>
+                               <div class="newq_anscount"> {{ total_answers }}</div>
                            {% endwith %}
-                              <span class="badge"> Answers </span>
+                              <div class="badge"> Answers </div>
                           </span>
 
                     </div>

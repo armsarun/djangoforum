@@ -1,12 +1,58 @@
 {% extends "base.html" %}
-
-{% block title %}Create an account{% endblock %}
-
+{% load widget_tweaks %}
+{% block title %}Sign Up{% endblock %}
 {% block content %}
-<h1>Create an account</h1>
-<form action="." method="post">
-    {{ user_form.as_p }}
-    {% csrf_token %}
-    <input type="submit" value="Create my account">
-</form>
+
+    <div class="container signupfont">
+
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class=" row login_error">
+                {% if user_form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="signupformerror">
+
+                {% if user_form.errors %}
+                    {% for field in user_form %}
+                        {% for error in field.errors %}
+                            <div class="label label-danger">
+
+                                {{ error|escape }}
+
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+
+            <div class="row">
+                <div class="signuptext">
+                    <h1> Sign-up Form </h1>
+                </div>
+            </div>
+
+            <div class="signupformalign">
+                <div class="signupform">
+                    {% render_field user_form.username class="form-control input-md" placeholder="Enter Username" %}
+                    {% render_field user_form.first_name class="form-control input-md" placeholder="Enter Firstname" %}
+                    {% render_field user_form.email class="form-control input-md" placeholder="Enter Email" %}
+                    {% render_field user_form.password class="form-control input-md" placeholder="Enter Password" %}
+                    {% render_field user_form.password2 class="form-control input-md" placeholder="Repeat Password" %}
+                </div>
+
+                <div class="signupformbutton">
+                    <button class="btn btn-def btn-block">
+                        Create account
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 {% endblock %}

@@ -3,7 +3,9 @@
 {% load widget_tweaks %}
 {% block content %}
 
-    <div class="container clearfix">
+    <div class="querydetailfont">
+
+        <div class="container clearfix ">
 
            <span class="col-lg-10 pull-left">
                <h2 class="page-title"> {{ query.title }}</h2>
@@ -11,285 +13,321 @@
 
            </span>
             <span class="col-lg-2 pull-right">
-                <span class="row">
-                   <div class="queryavatar">
-                        {{ query.user | make_list|first|title }}
-                   </div>
-                </span>
-                 <span class="row center-block">
-                     {{ query.create.date }}
-                 </span>
+                <div class="queryalldetail">
+                    <span class="row">
+                        <div class="querydetailavatartop">
+                            <div class="queryavatar">
+                                {{ query.user | make_list|first|title }}
+                            </div>
+                        </div>
+                    </span>
+                    <span class="row center-block">
+                        <div class="querydetailupdate">
+                            {{ query.create.date }}
+                        </div>
+                    </span>
+                    <div class="reply_button">
+                        {% if query.close == False %}
+                            <a href="#answer_button" class="btn btn-primary btnlink">Reply</a>
+                        {% endif %}
+                    </div>
+                </div>
             </span>
 
-        <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+            <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 
-            {% for c in correct %}
-                {% if correct.count == 1 %}
-                    <div class="bestanswer">
-                        <div class="bestanswerinner">
+                {% for c in correct %}
+                    {% if correct.count == 1 %}
+                        <div class="bestanswer">
+                            <div class="bestanswerinner">
 
-                            <h5>
-                                <span class="label label-info">Best answer</span>
-                            </h5>
-                            {% for answer in answers %}
-                                {% if answer.id == c.answer.id %}
-                                    <a href="#findans">{{ answer.content | safe }}</a>
-                                {% endif %}
-                            {% endfor %}
+                                <h5>
+                                    <span class="label label-success">Best answer</span>
+                                </h5>
+                                {% for answer in answers %}
+                                    {% if answer.id == c.answer.id %}
+                                        <a href="#findans">{{ answer.content | safe }}</a>
+                                    {% endif %}
+                                {% endfor %}
 
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
         </div>
 
-    </div>
+        {% comment %} Total answer block {% endcomment %}
+        <div class="answer_block">
 
-    {% comment %} Total answer block {% endcomment %}
-    <div class="answer_block">
+            <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
 
-        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                <div class="answer_inner">
 
-            <div class="answer_inner">
+                    <div class="row answer_total">
 
-                <div class="row answer_total">
+                        {% with answers.count as total_answers %}
+                            <h5>
+                                <span class="badge">{{ total_answers }}</span>
+                                <span class="label label-primary">answer{{ total_answers|pluralize }}</span>
+                            </h5>
+                        {% endwith %}
 
-                    {% with answers.count as total_answers %}
-                        <h5>
-                            <span class="badge">{{ total_answers }}</span>
-                            <span class="label label-info">answer{{ total_answers|pluralize }}</span>
-                        </h5>
-                    {% endwith %}
+                    </div>
 
-                </div>
+                    <div class="row">
 
-                <div class="row">
+                        {% for answer in answers %}
 
-                    {% for answer in answers %}
+                            <div class="row">
+                                <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
 
-                        <div class="row">
-                            <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
+                                    <div class="answers_box">
 
-                                <div class="answers_box">
+                                        <div class="row">
 
-                                    <div class="row">
+                                            <div class="pull-left">
 
-                                        <div class="pull-left">
+                                                <div class="answer_user">
+                                                    <div class="queryavatar">
+                                                        {{ answer.user | make_list|first|title }}
+                                                    </div>
+                                                </div>
 
-                                            <div class="answer_user">
-                                                <div class="queryavatar">
-                                                    {{ answer.user | make_list|first|title }}
+                                                <div class="answeruser_head">
+                                                    <h5>
+                                                    <span>
+                                                        <a href="">{{ answer.user | capfirst }} </a>
+                                                    </span>
+                                                    </h5>
                                                 </div>
                                             </div>
 
-                                            <div class="answeruser_head">
-                                                <h5>
-                                                    <span>
-                                                        <a href="{% url "userview" answer.user.id answer.user.username %}">{{ answer.user }} </a>
-                                                    </span>
-                                                </h5>
-                                            </div>
-                                        </div>
-
-                                        <div class="pull-right answer_date">
-                                            Answered on <span class="label label-default">{{ answer.create }}</span>
-                                        </div>
-
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="answer_content">
-                                            {% if correct.count < 1 %}
-                                                {% if request.user == query.user %}
-                                                    <form action="." method="post">
-                                                        {% csrf_token %}
-                                                        {{ correctanswer }}
-                                                        <input type="hidden" name="correctanswer_id"
-                                                               value="{{ answer.id }}">
-                                                        <div class="correctanswer_button">
-                                                            <button class="btn btn-primary pull-right"
-                                                                    id="answer_button"
-                                                                    name="correct_answer">
-                                                                BestAnswer
-                                                            </button>
-                                                        </div>
-
-                                                    </form>
-                                                {% endif %}
-                                            {% endif %}
-                                            {% for c in correct %}
-                                                {% if correct.count == 1 %}
-                                                    {% if answer.id == c.answer.id %}
-                                                        <div class="correctanswerouter">
-                                                            <div class=" label label-info pull-right">
-                                                                <div class="correctanswer_text">
-                                                                    <p id="findans">BestAnswer</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    {% else %}
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-
-                                            {{ answer.content| safe | linebreaks }}
-                                        </div>
-
-                                        <hr>
-
-                                        <div class="row comment_section">
-
-                                            <div class="row  comment_label">
-                                                <h4 class="label label-primary"> Comments: </h4>
+                                            <div class="pull-right answer_date">
+                                                Answered on&nbsp;<span
+                                                    class="label label-default">{{ answer.create }}</span>
                                             </div>
 
-                                            {% for answer_comment in comment %}
-                                                {% if answer_comment.answer|stringformat:"s"  == answer.content|stringformat:"s" %}
-
-                                                    <div class="">
-                                                        <div class="row">
-                                                            <div class="pull-left">
-                                                                {{ answer_comment.comment }}
-                                                            </div>
-                                                            <div class="pull-right">
-                                                                {{ answer_comment.user }}
-                                                                {{ answer_comment.create | timesince }} ago
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                {% endif %}
-                                            {% endfor %}
 
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
-                                                <div class="newcomment">
-                                                    {% if user.is_authenticated %}
+
+                                            <div class="answer_content">
+
+
+                                                {% if correct.count < 1 %}
+                                                    {% if request.user == query.user %}
                                                         <form action="." method="post">
                                                             {% csrf_token %}
-                                                            <input type="hidden" name="answer_id"
+                                                            {{ correctanswer }}
+                                                            <input type="hidden" name="correctanswer_id"
                                                                    value="{{ answer.id }}">
-                                                            {% for hidden in user_form.hidden_fields %}
-                                                                {{ hidden }}
-                                                            {% endfor %}
-
-                                                            <div class="form-group">
-                                                                {% render_field commentform.comment class="form-control input-md" placeholder="Enter your comment" %}
-                                                                {% for error in field.errors %}
-                                                                    <span class="help-block">{{ error }}</span>
-                                                                {% endfor %}
+                                                            <div class="pull-right">
+                                                                <div class="bestanswerbutton">
+                                                                    <button class="btn btn-sm" id="answer_button"
+                                                                            name="correct_answer">
+                                                                        BestAnswer
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <button class="btn btn-primary" id="comment_button"
-                                                                    name="post_comment">Add Comment
-                                                            </button>
                                                         </form>
+                                                    {% endif %}
+                                                {% endif %}
 
-                                                    {% else %}
-                                                        <h3> Please login to add comments</h3>
-                                                        <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
-                                                    {% endif %} {% comment %}query user log-in check {% endcomment %}
+
+                                                <div class="correctanswerouter pull-right">
+
+                                                    {% for c in correct %}
+                                                        {% if correct.count == 1 %}
+                                                            {% if answer.id == c.answer.id %}
+                                                                <div id="findans">
+                                                                    <span class="label label-success">BestAnswer</span>
+                                                                </div>
+                                                            {% else %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
                                                 </div>
+
+                                                <div class="answer">
+
+                                                    {{ answer.content| safe | linebreaks }}
+
+                                                </div>
+
                                             </div>
+
+
+                                            <div class="showcomment">
+                                                <span class="">Show/hide comments</span>
+                                            </div>
+
+                                            <div class="comment_section">
+                                                <div class="row">
+
+                                                    {% for answer_comment in comment %}
+                                                        {% if answer_comment.answer|stringformat:"s"  == answer.content|stringformat:"s" %}
+                                                            <div class="row">
+
+                                                                <div class="pull-left">
+                                                                    <div class="commenttext">
+                                                                        {{ answer_comment.comment }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pull-right">
+                                                                    <div class="commentuser">
+                                                                        {{ answer_comment.user }} &nbsp;&nbsp;
+                                                                        {{ answer_comment.create | timesince }}
+                                                                        ago
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <hr>
+                                                        {% endif %}
+                                                    {% endfor %}
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
+                                                            <div class="newcomment">
+                                                                {% if user.is_authenticated %}
+                                                                    <form action="." method="post">
+                                                                        {% csrf_token %}
+                                                                        <input type="hidden" name="answer_id"
+                                                                               value="{{ answer.id }}">
+                                                                        {% for hidden in user_form.hidden_fields %}
+                                                                            {{ hidden }}
+                                                                        {% endfor %}
+
+                                                                        <div class="form-group">
+                                                                            {% render_field commentform.comment class="form-control input-md" placeholder="Enter your comment" %}
+                                                                            {% for error in field.errors %}
+                                                                                <span class="help-block">{{ error }}</span>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                        <button class="btn btn-primary"
+                                                                                id="comment_button"
+                                                                                name="post_comment">Add Comment
+                                                                        </button>
+                                                                    </form>
+
+                                                                {% else %}
+                                                                    <h4> Login to add comments</h4>
+                                                                    <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
+                                                                {% endif %} {% comment %}query user log-in check {% endcomment %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
                                         </div>
                                     </div>
+                                    {% comment%} answer and comment box inside row {% endcomment %}
+                                    {% comment %} answerbox {% endcomment %}
                                 </div>
-                                {% comment%} answer and comment box inside row {% endcomment %}
-                                {% comment %} answerbox {% endcomment %}
-                            </div>
-                            {% comment %} Column specify {% endcomment %}
-                        </div> {% comment %} User and anser in one row{% endcomment %}
+                                {% comment %} Column specify {% endcomment %}
+                            </div> {% comment %} User and anser in one row{% endcomment %}
 
 
-                    {% empty %}
-                        <span class="info answer_count">There are no answers yet.</span>
+                        {% empty %}
+                            <span class="info answer_count">There are no answers yet.</span>
 
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+
                 </div>
-
+                {% comment %} End of the inner col {% endcomment %}
             </div>
-            {% comment %} End of the inner col {% endcomment %}
+            {% comment %} End of the column{% endcomment %}
         </div>
-        {% comment %} End of the column{% endcomment %}
-    </div> {% comment %} End of answer_block {% endcomment %}
+        {% comment %} End of answer_block {% endcomment %}
 
 
 
-    {% if query.close %}
+        {% if query.close %}
 
-        <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-            <div class="query_close clearfix">
+            <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                <div class="query_close clearfix">
             <span class="pull-left">
-                <span class="row"> Closed Reason</span>
+                <span class="row"><h5 class="label label-info">Closed Reason</h5></span>
                 <span class="row">{{ query.closed_reason }}</span>
             </span>
-            <span class="pull-right ">
-                 <span class="row">closed by</span>
-                 <span class="row">{{ query.user }}</span>
-            </span>
-            </div>
-        </div>
-
-    {% else %}
-
-        {% if user.is_authenticated %}
-            {% if query.close == False %}
-
-
-                <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
-                    <div class="answerform_block">
-
-                        <div class="row">
-                            <div class="answer_text">
-                                <h4>Your Answer</h4>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="answer_form">
-                                <form action="." method="post">
-                                    {% csrf_token %}
-                                    {{ answerform.media }}
-                                    {% for hidden in user_form.hidden_fields %}
-                                        {{ hidden }}
-                                    {% endfor %}
-
-                                    <div class="form-group">
-                                        {% render_field answerform.content class="form-control input-md" placeholder="Enter your answer here" %}
-                                        {% for error in field.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-
-                                    <button class="btn btn-primary" id="answer_button" name="post_answer">
-                                        Post Answer
-                                    </button>
-
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
+            <span class="pull-right">
+                <div class="closeduser">
+                    <span class="row"><h6 class="label label-default">closed by</h6></span>
+                    <span class="row">{{ query.user }}</span>
                 </div>
+            </span>
+                </div>
+            </div>
 
-
-            {% endif %}{% comment %}query close check {% endcomment %}
         {% else %}
-            <h3> Please login to add the answer</h3>
-            <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
-        {% endif %} {% comment %}query user log-in check {% endcomment %}
 
-    {% endif %}
+            {% if user.is_authenticated %}
+                {% if query.close == False %}
+
+
+                    <div class="col-lg-12 col-xs-10 col-sm-10 col-md-10">
+                        <div class="answerform_block">
+
+                            <div class="row">
+                                <div class="answer_text">
+                                    <h4>Your Answer</h4>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="answer_form">
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        {{ answerform.media }}
+                                        {% for hidden in user_form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+
+                                        <div class="form-group">
+                                            {% render_field answerform.content class="form-control input-md" placeholder="Enter your answer here" %}
+                                            {% for error in field.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <button class="btn btn-primary" id="answer_button" name="post_answer">
+                                            Post Answer
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                {% endif %}{% comment %}query close check {% endcomment %}
+            {% else %}
+                <div class="answerlogin">
+                    <h4>Login to add the answer</h4>
+                    <a href="{% url "login" %}?next={% firstof request.path '/' %}">Login</a>
+                </div>
+            {% endif %} {% comment %}query user log-in check {% endcomment %}
+
+        {% endif %}
+
+    </div>
 
 {% endblock %}
 
 {% block javascript %}
-
-    <script>
-
-    </script>
 
 {% endblock %}
 

@@ -1,48 +1,70 @@
 {% extends "base.html" %}
-{% block title %}Post{% endblock %}
+{% block title %}Announcement{% endblock %}
 {% block content %}
 
-    <div class="container">
+    <div class=" container-fluid recentbackground">
 
-    <div class="text">
-        <h3>Announcement</h3>
-    </div>
-        <div class="table table-responsive">
-            <table class="table table-hover">
-                <tr>
-                    <th>Topic</th>
-                    <th>Posted User</th>
-                    <th>Category</th>
-                    <th>Replies</th>
-                </tr>
-                <tr>
-                    {% for each in announcement %}
-                        <td>
-                        {% if each.close %}
-                            <span class="pull-left">Closed</span>
-                        {% endif %}
-                            {% comment %}
-                            each post detail loaded
-                        {% endcomment %}
-                            <a href="{{ each.get_absolute_url }}">
-                                {{ each.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ each.user }}
-                        </td>
-                        <td>
-                            {{ each.category }}
-                        </td>
-                        <td>
-                            {{ each.answer.count }}
-                        </td>
-                        </tr>
-                    {% endfor %}
-            </table>
-          {% include "forum/app/paginator.html"%}
+        <div class="container">
+
+            <div class="categorytext">
+                <h3>Announcement</h3>
+            </div>
+
+            {% for each in announcement %}
+
+                <div class="recent_q_back">
+                    <div class="col-lg-1 col-sm-4 col-xs-4 col-md-1">
+                        <div class="pull-left">
+                            {% if each.user.profile.photo %}
+
+                                <div class="recent_q_userimg">
+                                    <img src="{{ MEDIA_URL }}{{ each.user.profile.photo.url }}" class="img-responsive">
+                                </div>
+                            {% else %}
+                                <div class="">
+                                    {{ each.user | make_list|first|title }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-11 col-sm-8 col-xs-8 col-md-11">
+                        <div class="recent_q_detail">
+                            <div class="row">
+                               <span class="recent_q_detail_title">
+                                   <a href="{{ each.get_absolute_url }}">{{ each.title }}</a>
+                               </span>
+
+                                {% if each.close %}
+                                    <span class="label label-warning">Closed</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <span class="recent_q_desc">{{ each.description | safe }}</span>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="recent_q_userdetail">
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_user">By {{ each.user }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_update">Updated {{ each.create |timesince }}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="recent_q_answers">{{ each.answer.count }} Replies</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
         </div>
-
     </div>
-
 {% endblock %}

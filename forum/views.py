@@ -33,7 +33,7 @@ def user_edit(request):
     profile_form = ProfileEditForm(instance=request.user.profile,
                                    data=request.POST,
                                    files=request.FILES)
-    if user_form.is_valid() or profile_form.is_valid():
+    if user_form.is_valid() and profile_form.is_valid():
       user = user_form.save()
       profile = profile_form.save()
       messages.success(request, 'Profile Updated successfully')

@@ -6,4 +6,4 @@ gunicorn==19.6.0
 django-autoslug==1.9.3
 psycopg2==2.6.1
 whitenoise==2.0.6
-
+Pillow==3.1.0

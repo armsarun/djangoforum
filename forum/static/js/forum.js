@@ -1,4 +1,4 @@
-$(".queryavatar,.headeravatar, .recentuseravatar").each(function () {
+$(".queryavatar,.headeravatar, .recentuseravatar .avatar").each(function () {
   var color;
   var letter = $(this).text()
   var a = letter.match(/a/i);

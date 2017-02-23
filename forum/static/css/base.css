@@ -740,6 +740,7 @@ i.material-icons.iconedit {
 /*Useranswers*/
 
 .useranswerbackground {
+  height: 560px;
   background: #efefef;
   margin: -38px -15px 0px -15px !important;
 }

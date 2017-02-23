@@ -1,0 +1,306 @@
+@media screen and (min-device-width: 200px) and (max-device-width: 768px) {
+
+  .login_back {
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .table-responsive {
+    overflow-x: hidden;
+  }
+
+  .cke_chrome {
+    width: 100% !important;
+  }
+
+  .queryedit .cke_chrome {
+    width: 100% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 100% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 100% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 75px;
+
+  }
+
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 480px) {
+  /* STYLES GO HERE */
+
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width: 321px) {
+  /* STYLES GO HERE */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width: 320px) {
+
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px) {
+
+  .cke_chrome {
+    width: 160% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 160% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 193% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
+  .queryedit .cke_chrome {
+    width: 138% !important;
+  }
+
+  .queryedit {
+    margin: 105px 0px 31px 0px;
+  }
+
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px)
+and (orientation: landscape) {
+
+  .cke_chrome {
+    width: 160% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 125% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 155% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 10px;
+
+  }
+
+  .queryedit .cke_chrome {
+    width: 138% !important;
+  }
+
+  .queryedit {
+    margin: 105px 0px 31px 0px;
+  }
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px)
+and (orientation: portrait) {
+
+  .cke_chrome {
+    width: 160% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 125% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 155% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width: 1224px) {
+
+  .cke_chrome {
+    width: 160% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 283% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 165% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
+  .recent_q_desc img {
+    width: auto !important;
+
+  }
+
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width: 1824px) {
+
+  .cke_chrome {
+    width: 160% !important;
+  }
+
+  .newquery .cke_chrome {
+    width: 193% !important;
+  }
+
+  .answer_form .cke_chrome {
+    width: 283% !important;
+  }
+
+  .homesearch_form {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 142px;
+
+  }
+
+  .recent_q_desc img {
+    width: auto !important;
+
+  }
+
+}
+
+/* iPhone 5 (portrait & landscape)----------- */
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px) {
+  /* STYLES GO HERE */
+  #homesearch {
+    font-size: 21px;
+  }
+
+  .queryedit .cke_chrome {
+    width: 100% !important;
+  }
+
+  .queryedit .form-control {
+    width: 100%;
+  }
+
+}
+
+/* iPhone 5 (landscape)----------- */
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px)
+and (orientation: landscape) {
+  /* STYLES GO HERE */
+  #homesearch {
+    font-size: 24px !important;
+  }
+
+  #homesearchsubmit {
+    margin: 114px 8px 0;
+  }
+
+  .queryedit .cke_chrome {
+    width: 100% !important;
+  }
+
+  .queryedit .form-control {
+    width: 100%;
+  }
+}
+
+/* iPhone 5 (portrait)----------- */
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px)
+and (orientation: portrait) {
+  #homesearch {
+    font-size: 18px !important;
+  }
+
+  #homesearchsubmit {
+    margin: 114px 8px 0;
+  }
+}
+
+/*ipad portariat css */
+@media (max-width: 992px) {
+
+  ul.nav.navbar-nav.navbar-left.custommenu {
+    margin: 0px;
+  }
+
+  .homesearch_form {
+    margin: 19px 0px 0px 85px;
+  }
+
+  .homememberdetail {
+    margin: 8px 0px 0px -39px;
+  }
+
+  .queryedit .cke_chrome {
+    width: 100% !important;
+  }
+
+  .queryedit .form-control {
+    width: 100%;
+  }
+
+}
+

@@ -1,3 +1,9 @@
 django_ckeditor==5.1.1
 Django==1.10.1
 django-widget-tweaks==1.4.1
+dj-database-url==0.4.1
+gunicorn==19.6.0
+django-autoslug==1.9.3
+psycopg2==2.6.1
+whitenoise==2.0.6
+

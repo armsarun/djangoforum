@@ -35,7 +35,7 @@
                                     <img src="{{ MEDIA_URL }}{{ query.user.profile.photo.url }}" class="img-responsive">
                                 </div>
                             {% else %}
-                                <div class="">
+                                <div class="recentuseravatar">
                                     {{ query.user | make_list|first|title }}
                                 </div>
                             {% endif %}

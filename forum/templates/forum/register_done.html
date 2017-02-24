@@ -2,7 +2,9 @@
 {% block title %}welcome{% endblock %}
 
 {% block content %}
-  <h1>Welcome {{ new_user.first_name }}</h1>
-<p>Your acccount has been Successfully Created.
-    Now you can<a href="{% url "login" %}">Log in</a></p>
+    <div class="container">
+        <h1>Welcome {{ new_user.first_name }}</h1>
+        <p>Your acccount has been Successfully Created.
+            Now you can &nbsp; <a href="{% url "login" %}">Log in</a></p>
+    </div>
 {% endblock %}

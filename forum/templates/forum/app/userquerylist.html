@@ -59,9 +59,11 @@
 
                 </div>
 
-            {% empty %}
-                <h2> No Question post yet</h2>
-                <a href="{% url "newquery" %}">Post Your first Query</a>
+                {% empty %}
+                <div class="noquestionposted">
+                    <h2> No Question post yet</h2>
+                    <a href="{% url "newquery" %}">Post Your first Query</a>
+                </div>
 
             {% endfor %}
 

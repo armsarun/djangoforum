@@ -29,12 +29,12 @@
                 <div class="post">
                     <div class="wrap-ut pull-left">
                         <div class="userinfo pull-left">
-                            <div class="avatar">
+                            <div class="homeavatar">
                                 {% if eachquery.user.profile.photo %}
                                     <img src="{{ MEDIA_URL }}{{ eachquery.user.profile.photo.url }}"
                                          class="headeravatarimg img-responsive">
                                 {% else %}
-                                    <div class="recentuseravatar">
+                                    <div class="homeuseravatar">
                                         {{ eachquery.user | make_list|first|title }}
                                     </div>
                                 {% endif %}

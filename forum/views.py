@@ -57,10 +57,10 @@ def newquery(request):
       new_query = query_form.save(commit=False)
       new_query.user = request.user
       new_query.save()
-      messages.success(request, "Added post Succesfully")
+      messages.success(request, "Query added Succesfully")
       return render(request, 'forum/app/userquerylist.html')
     else:
-      messages.error(request, "Post not added ")
+      messages.error(request, "Query not added ")
   else:
     query_form = NewQueryForm()
   return render(request, "forum/app/newquery.html", {"query_form": query_form,

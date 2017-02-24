@@ -17,7 +17,7 @@
                                     <img src="{{ MEDIA_URL }}{{ each.user.profile.photo.url }}" class="img-responsive">
                                 </div>
                             {% else %}
-                                <div class="">
+                                <div class="recentuseravatar">
                                     {{ each.user | make_list|first|title }}
                                 </div>
                             {% endif %}

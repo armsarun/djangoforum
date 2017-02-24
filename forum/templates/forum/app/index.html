@@ -40,13 +40,15 @@
                                 {% endif %}
                             </div>
                             <div class="icons">
-                               Since {{ eachquery.user.date_joined|timesince }}
+                                Member Since {{ eachquery.user.date_joined|timesince }}
                             </div>
 
                         </div>
                         <div class="posttext pull-left">
                             <h2><a href="{{ eachquery.get_absolute_url }}">{{ eachquery.title }}</a></h2>
-                            <p>{{ eachquery.description | safe }}</p>
+                            <div class="homedescription">
+                                {{ eachquery.description | safe }}
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>

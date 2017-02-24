@@ -625,6 +625,12 @@ i.material-icons.iconedit {
     height: 38px;
 }
 
+.homedescription {
+    line-height: 1.5em;
+    height: 5em;
+    overflow: hidden;
+}
+
 /*Homepage*/
 
 /*Recent Questions*/

@@ -637,6 +637,7 @@ i.material-icons.iconedit {
 .recentbackground {
     background: #efefef;
     margin: -38px -15px 0px -15px !important;
+    height: 560px;
 }
 
 .recent_q_back {

@@ -59,7 +59,6 @@ class ProfileEditForm(forms.ModelForm):
     image = self.cleaned_data.get('photo', False)
 
     if image:
-
       # validate file size
       if len(image) > (1 * 1024 * 1024):
         raise forms.ValidationError(_('Image file too large ( maximum 1mb )'))

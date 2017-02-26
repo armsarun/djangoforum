@@ -629,6 +629,7 @@ i.material-icons.iconedit {
     line-height: 1.5em;
     height: 5em;
     overflow: hidden;
+    padding: 2px;
 }
 
 /*Homepage*/

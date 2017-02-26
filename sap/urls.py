@@ -23,18 +23,18 @@ from django.conf.urls.static import static
 from django.views.decorators.cache import never_cache
 
 urlpatterns = [
-  url(r'^admin/', admin.site.urls),
-  #allow ckeditor to upload specific url
-  url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-  # allow all the user to upload and browse their images in server
-  url(r'^upload/', (views.upload), name='ckeditor_upload'),
-  url(r'^browse/', never_cache((views.browse)), name='ckeditor_browse'),
-  url(r'^', include('forum.urls')),
+    url(r'^admin/', admin.site.urls),
+    # allow ckeditor to upload specific url
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    # allow all the user to upload and browse their images in server
+    url(r'^upload/', (views.upload), name='ckeditor_upload'),
+    url(r'^browse/', never_cache((views.browse)), name='ckeditor_browse'),
+    url(r'^', include('forum.urls')),
 ]
 
 if settings.DEBUG:
-  urlpatterns +=  static(
-    settings.STATIC_URL,
-    document_root=settings.STATIC_ROOT
-  ) + static(settings.MEDIA_URL,
-             document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
+    ) + static(settings.MEDIA_URL,
+               document_root=settings.MEDIA_ROOT)
